@@ -1,19 +1,16 @@
+/* Tailwind base, components, utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Define CSS variables for theme colors */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* Optional: Remove system preference override for simplicity */
+/* If you want to support dark mode in future, you can re-enable this */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -21,13 +18,25 @@
   }
 }
 
+/* Force light theme regardless of system preference */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff; /* Always white background */
+    --foreground: #171717; /* Dark text for contrast */
+  }
+}
+
+/* Apply background and text color globally */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
 }
 
-/* Dashboard grid */
+/* Dashboard grid styling for a modern layout */
 .dashboard {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -35,32 +44,33 @@ body {
   padding: 40px;
 }
 
-/* Individual card */
+/* Style for each card */
 .card {
-  background-color: #f2f2f2;
+  background-color: #f2f2f2; /* Light card background */
   padding: 20px;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Button inside card */
+/* Button styling inside cards */
 .card button {
   margin-top: 10px;
   padding: 8px 16px;
   border: none;
   border-radius: 8px;
-  background-color: #4f46e5;
+  background-color: #4f46e5; /* Indigo color */
   color: white;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .card button:hover {
-  background-color: #3730a3;
+  background-color: #3730a3; /* Darker indigo on hover */
 }
