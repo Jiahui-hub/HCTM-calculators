@@ -1,8 +1,8 @@
-"use client";
+"use client"; // MUST be first line
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FiChevronDown, FiChevronUp, FiArrowLeft, FiActivity, FiAlertCircle } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp, FiArrowLeft, FiAlertTriangle, FiInfo, FiActivity, FiShield } from "react-icons/fi";
 
 export default function PotassiumCalculator() {
   const router = useRouter();
@@ -11,8 +11,9 @@ export default function PotassiumCalculator() {
   const [targetK, setTargetK] = useState("4.0");
   const [openRef, setOpenRef] = useState(false);
 
-  // --- Logic (KEPT EXACTLY AS PROVIDED) ---
-  const deficit = weight && currentK && targetK
+  // --- Logic (Unchanged) ---
+  const deficit =
+    weight && currentK && targetK
       ? (Number(targetK) - Number(currentK)) * Number(weight) * 0.4
       : 0;
 
@@ -33,199 +34,195 @@ export default function PotassiumCalculator() {
   }
 
   let potassiumWarning = "";
-  let warningColor = "";
+  let warningClasses = "";
   const k = Number(currentK);
   if (k > 0) {
     if (k < 2.5) {
       potassiumWarning = "Severe hypokalaemia (<2.5 mmol/L). Continuous ECG monitoring required.";
-      warningColor = "bg-red-50 border-red-200 text-red-800";
+      warningClasses = "bg-red-50 text-red-700 border-red-200";
     } else if (k < 3.0) {
       potassiumWarning = "Moderate hypokalaemia (2.5–3.0 mmol/L). IV replacement with close monitoring.";
-      warningColor = "bg-orange-50 border-orange-200 text-orange-800";
+      warningClasses = "bg-orange-50 text-orange-700 border-orange-200";
     } else if (k < 3.5) {
       potassiumWarning = "Mild hypokalaemia (3.0–3.5 mmol/L). Oral replacement preferred.";
-      warningColor = "bg-amber-50 border-amber-200 text-amber-800";
+      warningClasses = "bg-yellow-50 text-yellow-700 border-yellow-200";
     }
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFDFD] text-slate-900 font-sans pb-10">
-      <style jsx global>{`
-        body { background-color: #FDFDFD !important; }
-        input[type='number']::-webkit-inner-spin-button { display: none; }
-      `}</style>
+    <div className="min-h-screen bg-[#f0f2f5] text-slate-800 font-sans pb-12">
+      {/* Dynamic Background Blur - subtle creative touch */}
+      <div className="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden -z-10">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-100 rounded-full blur-[120px] opacity-60" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-100 rounded-full blur-[120px] opacity-60" />
+      </div>
 
-      {/* Modern Header */}
-      <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 px-4 py-4">
-        <div className="max-w-3xl mx-auto flex items-center justify-between">
-          <button onClick={() => router.back()} className="flex items-center gap-2 text-indigo-600 font-medium hover:opacity-70 transition">
-            <FiArrowLeft /> <span>Back</span>
-          </button>
-          <div className="flex items-center gap-2 font-bold text-slate-800">
-            <FiActivity className="text-indigo-600" />
-            <span>K+ Calc</span>
-          </div>
-          <div className="w-10" /> 
+      {/* Header Bar */}
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-white shadow-sm px-6 py-4 flex items-center">
+        <button
+          onClick={() => router.back()}
+          className="p-2 hover:bg-slate-100 rounded-full transition-colors flex items-center gap-2 font-medium text-slate-600"
+        >
+          <FiArrowLeft size={20} />
+          <span>Home</span>
+        </button>
+        <div className="flex-1 text-center">
+          <span className="font-bold text-slate-900 tracking-tight">HCTM Utilities</span>
         </div>
+        <div className="w-20" /> {/* Spacer for balance */}
       </nav>
 
-      <main className="max-w-3xl mx-auto px-4 pt-8 space-y-6">
-        <header className="text-center space-y-2">
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Potassium Deficit</h1>
-          <p className="text-slate-500 text-sm">Calculate IV replacement based on body weight</p>
-        </header>
+      <main className="max-w-3xl mx-auto px-4 mt-8">
+        {/* Title Section */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2">Potassium Deficit</h1>
+          <p className="text-slate-500 font-medium italic">Clinical Replacement Guide</p>
+        </div>
 
         {/* Input Card */}
-        <section className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 md:p-8">
+        <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/60 p-6 md:p-8 mb-6 border border-white">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <InputGroup label="Body Weight" unit="kg" value={weight} setValue={setWeight} />
-            <InputGroup label="Measured K+" unit="mmol/L" value={currentK} setValue={setCurrentK} />
-            <InputGroup label="Target K+" unit="mmol/L" value={targetK} setValue={setTargetK} />
+            <InputField label="Body Weight" unit="kg" value={weight} onChange={setWeight} />
+            <InputField label="Measured K⁺" unit="mmol/L" value={currentK} onChange={setCurrentK} />
+            <InputField label="Target K⁺" unit="mmol/L" value={targetK} onChange={setTargetK} />
           </div>
-          
-          <div className="mt-8 p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100">
-             <p className="text-xs font-semibold text-indigo-900 uppercase tracking-wider mb-1">Current Formula</p>
-             <p className="text-sm text-indigo-700 italic">(Target K⁺ − Measured K⁺) × Weight (kg) × 0.4</p>
-          </div>
-        </section>
 
-        {/* Dynamic Warning Alert */}
-        {potassiumWarning && (
-          <div className={`flex gap-3 p-4 rounded-2xl border animate-in fade-in slide-in-from-top-2 ${warningColor}`}>
-            <FiAlertCircle className="shrink-0 mt-0.5" />
-            <p className="text-sm font-medium">{potassiumWarning}</p>
-          </div>
-        )}
+          {/* Warning Banner */}
+          {potassiumWarning && (
+            <div className={`mt-6 p-4 rounded-2xl border flex items-start gap-3 transition-all duration-300 ${warningClasses}`}>
+              <FiAlertTriangle className="mt-1 flex-shrink-0" />
+              <p className="text-sm font-semibold leading-relaxed">{potassiumWarning}</p>
+            </div>
+          )}
+        </div>
 
-        {/* Results Card */}
+        {/* Results Hero */}
         {deficit > 0 && (
-          <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white shadow-2xl shadow-indigo-200 animate-in zoom-in-95 duration-300">
-            <div className="text-center space-y-1 mb-8">
-              <span className="text-indigo-400 text-xs font-bold uppercase tracking-[0.2em]">Total Deficit</span>
-              <h2 className="text-5xl font-black">{deficit.toFixed(1)} <small className="text-xl font-normal opacity-60">mmol</small></h2>
+          <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl p-8 text-white shadow-lg shadow-emerald-200 mb-8 transform transition-all animate-in fade-in slide-in-from-bottom-4">
+            <div className="flex flex-col items-center text-center">
+              <span className="text-emerald-100 uppercase tracking-widest text-xs font-bold mb-2">Estimated Deficit</span>
+              <div className="text-5xl font-black mb-6">{deficit.toFixed(1)} <span className="text-2xl font-normal opacity-80">mmol</span></div>
+              
+              <div className="w-full h-px bg-white/20 mb-6" />
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
+                  <p className="text-xs text-emerald-100 mb-1 font-medium">Required Volume</p>
+                  <p className="text-xl font-bold">{volumeML.toFixed(1)} mL</p>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
+                  <p className="text-xs text-emerald-100 mb-1 font-medium">Suggested Vials</p>
+                  <p className="text-xl font-bold">{suggestedVials} Vials <span className="text-sm font-normal">(Injecsol K)</span></p>
+                </div>
+              </div>
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="bg-white/10 rounded-2xl p-5 border border-white/10 text-center">
-                <p className="text-xs text-indigo-300 font-medium mb-1">Volume (Injecsol K10)</p>
-                <p className="text-2xl font-bold">{volumeML.toFixed(1)} <span className="text-sm font-normal">mL</span></p>
-              </div>
-              <div className="bg-white/10 rounded-2xl p-5 border border-white/10 text-center">
-                <p className="text-xs text-indigo-300 font-medium mb-1">Suggested Vials</p>
-                <p className="text-2xl font-bold">{suggestedVials} <span className="text-sm font-normal">Vial(s)</span></p>
-              </div>
-            </div>
-
-            {Number(currentK) > 2.5 && (
-              <div className="mt-6 flex items-center justify-center gap-2 text-xs bg-red-500/20 text-red-200 py-2 px-4 rounded-full">
-                <span>⚠ Adjust infusion carefully (K &gt; 2.5)</span>
-              </div>
-            )}
           </div>
         )}
 
-        {/* Information Grid */}
-        <div className="grid md:grid-cols-2 gap-4">
-          <DisplayCard title="Dose Guidelines">
-            <ul className="space-y-3 text-sm text-slate-600">
-              <li className="flex gap-2"><span>•</span> <span>IV infusion: initial 40-60 mEq</span></li>
-              <li className="flex gap-2"><span>•</span> <span>Prophylaxis (PO): 20 mmol/day</span></li>
-              <li className="flex gap-2"><span>•</span> <span>K &gt; 2.5: 10-15 mmol/hr (Max 200/day)</span></li>
-              <li className="flex gap-2"><span>•</span> <span>K 3–3.5: PO 40–100 mmol/day (2-3 doses)</span></li>
+        {/* Info Grid */}
+        <div className="grid md:grid-cols-2 gap-4 mb-8">
+          <Section icon={<FiActivity className="text-indigo-500"/>} title="Dose Guidelines">
+            <ul className="space-y-2 text-sm text-slate-600">
+              <li>• IV: Initial 40-60 mEq (individualized)</li>
+              <li>• Prophylaxis: 20 mmol/day</li>
+              <li>• Normal requirement: 40-80 mEq/day</li>
+              <li>• {">"} 2.5 mmol/L: IV 10-15 mmol/hr</li>
+              <li>• 3.0–3.5 mmol/L: PO 40–100 mmol/day</li>
             </ul>
-          </DisplayCard>
+          </Section>
 
-          <DisplayCard title="Administration">
-            <ul className="space-y-3 text-sm text-slate-600">
-              <li className="flex gap-2"><span>•</span> <span>IV: 1g in 100mL NS (1hr) or 2g/200mL (2hr)</span></li>
-              <li className="flex gap-2"><span>•</span> <span>Peripheral: 10 mEq/100 mL</span></li>
-              <li className="flex gap-2"><span>•</span> <span>Central: 20–40 mEq/100 mL</span></li>
+          <Section icon={<FiShield className="text-emerald-500"/>} title="Administration">
+            <ul className="space-y-2 text-sm text-slate-600">
+              <li>• 1g in 100mL NS (1hr) or 2g in 200mL NS (2hrs)</li>
+              <li>• Peripheral: 10 mEq/100 mL</li>
+              <li>• Central: 20–40 mEq/100 mL</li>
+              <li>• <span className="text-red-500 font-semibold">Never bolus KCl</span></li>
             </ul>
-          </DisplayCard>
+          </Section>
         </div>
 
-        {/* Safety & Notes */}
+        {/* Collapsible Reference & Notes */}
         <div className="space-y-4">
-          <ExpandableSection title="Safety Guidance">
-             <ul className="space-y-2 text-sm text-slate-600 list-disc pl-4">
-                <li>Check renal & cardiac status before IV replacement</li>
-                <li>Central access for rates &gt; 20 mmol/hr</li>
-                <li>Re-check serum potassium after every 40–60 mmol</li>
-                <li>Correct hypomagnesaemia if present</li>
-             </ul>
-          </ExpandableSection>
+            <details className="group bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <summary className="flex items-center justify-between p-4 cursor-pointer list-none font-semibold text-slate-700 hover:bg-slate-50">
+                    <span className="flex items-center gap-2"><FiInfo className="text-blue-500"/> Conversion Notes</span>
+                    <FiChevronDown className="transition-transform group-open:rotate-180" />
+                </summary>
+                <div className="p-4 pt-0 text-sm text-slate-600 border-t border-slate-50 space-y-1">
+                    <p>• 1 vial K10% = 1g KCl</p>
+                    <p>• 1g KCl = 13.41 mmol</p>
+                    <p>• 1 mEq/L = 1 mmol/L</p>
+                </div>
+            </details>
 
-          <ExpandableSection title="Notes & Units">
-             <ul className="space-y-2 text-sm text-slate-600 list-disc pl-4">
-                <li>1 vial of K10% = 1g KCl (13.41 mmol)</li>
-                <li>Potassium 1 mEq/L = 1 mmol/L</li>
-                <li>Dilute before use; <strong>never bolus</strong></li>
-             </ul>
-          </ExpandableSection>
+            <details className="group bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <summary className="flex items-center justify-between p-4 cursor-pointer list-none font-semibold text-slate-700 hover:bg-slate-50">
+                    <span className="flex items-center gap-2"><FiShield className="text-orange-500"/> Safety Check</span>
+                    <FiChevronDown className="transition-transform group-open:rotate-180" />
+                </summary>
+                <div className="p-4 pt-0 text-sm text-slate-600 border-t border-slate-50 space-y-2">
+                    <p>• Verify renal and cardiac function</p>
+                    <p>• Central access required for {">"} 20 mmol/hr</p>
+                    <p>• Re-check K⁺ every 40-60 mmol infused</p>
+                </div>
+            </details>
 
-          <ReferenceSection openRef={openRef} setOpenRef={setOpenRef} />
+            <div className="p-4 text-center">
+                <button 
+                  onClick={() => setOpenRef(!openRef)}
+                  className="text-xs text-slate-400 hover:text-indigo-500 transition-colors uppercase tracking-widest font-bold"
+                >
+                  {openRef ? "Hide Reference" : "Show Reference"}
+                </button>
+                {openRef && (
+                  <p className="mt-4 text-[11px] text-slate-400 italic max-w-md mx-auto leading-relaxed animate-in fade-in duration-500">
+                    Alldredge B.K., et al. Koda-Kimble and Young’s Applied Therapeutics. 10th ed. Lippincott; 2013.
+                  </p>
+                )}
+            </div>
         </div>
 
-        <p className="text-[10px] text-slate-400 text-center pt-8 border-t border-slate-100 uppercase tracking-widest">
-          Disclaimer: Use as a guide only. Verify calculations before clinical use.
-        </p>
+        {/* Disclaimer */}
+        <footer className="mt-12 text-center">
+           <p className="text-[10px] text-slate-400 uppercase tracking-tighter max-w-xs mx-auto">
+             For clinical reference only. Professional judgment must override automated calculations.
+           </p>
+        </footer>
       </main>
     </div>
   );
 }
 
-// --- Specialized Helper Components ---
+// --- High-Quality UI Sub-components ---
 
-function InputGroup({ label, unit, value, setValue }: { label: string; unit: string; value: string; setValue: (v: string) => void }) {
+function InputField({ label, unit, value, onChange }: { label: string; unit: string; value: string; onChange: (v: string) => void }) {
   return (
-    <div className="flex flex-col space-y-2">
-      <label className="text-xs font-bold text-slate-500 uppercase tracking-tight">{label}</label>
+    <div className="flex flex-col gap-1.5">
+      <label className="text-xs font-bold text-slate-500 uppercase tracking-wider px-1">{label}</label>
       <div className="relative">
         <input
           type="number"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
-          className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 px-4 font-bold text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+          onChange={(e) => onChange(e.target.value)}
           placeholder="0.0"
+          className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3.5 px-4 text-lg font-semibold focus:outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all placeholder:text-slate-300"
         />
-        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 uppercase">{unit}</span>
+        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 bg-white px-2 py-1 rounded-md border border-slate-100 shadow-sm">
+          {unit}
+        </span>
       </div>
     </div>
   );
 }
 
-function DisplayCard({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
-      <h3 className="text-sm font-bold text-slate-900 mb-4 uppercase tracking-wider">{title}</h3>
+    <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-center gap-2 mb-4 font-bold text-slate-800">
+        {icon}
+        <h3>{title}</h3>
+      </div>
       {children}
-    </div>
-  );
-}
-
-function ExpandableSection({ title, children }: { title: string; children: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="bg-slate-50 border border-slate-100 rounded-2xl overflow-hidden">
-      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between p-4 font-bold text-sm text-slate-700">
-        {title} {open ? <FiChevronUp /> : <FiChevronDown />}
-      </button>
-      {open && <div className="p-4 pt-0 border-t border-slate-200/50 bg-white">{children}</div>}
-    </div>
-  );
-}
-
-function ReferenceSection({ openRef, setOpenRef }: any) {
-  return (
-    <div className="text-center">
-      <button onClick={() => setOpenRef(!openRef)} className="text-xs font-medium text-slate-400 underline underline-offset-4">
-        {openRef ? "Hide Reference" : "Show Reference Source"}
-      </button>
-      {openRef && (
-        <div className="mt-4 p-4 text-[11px] text-slate-500 leading-relaxed bg-slate-50 rounded-xl italic">
-          Alldredge B.K., et al. Koda-Kimble and Young’s Applied Therapeutics. 10th ed. Lippincott; 2013.
-        </div>
-      )}
     </div>
   );
 }
