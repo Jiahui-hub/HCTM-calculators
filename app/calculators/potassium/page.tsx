@@ -56,25 +56,23 @@ export default function PotassiumCalculator() {
   return (
     <div className="min-h-screen bg-white font-sans flex flex-col relative overflow-hidden">
 
-      {/* Top bar with back button and title */}
-      <div className="w-full fixed top-0 z-50 bg-white shadow-md border-b border-gray-200 h-20 flex items-center px-4 md:px-8 justify-between">
+      {/* Top bar with solid color, larger height, centered title */}
+      <div className="w-full fixed top-0 z-50 bg-[#A7C7E7] h-24 flex items-center px-6 justify-center shadow-md">
         {/* Back Button */}
         <button
           onClick={() => router.back()}
-          className="flex items-center text-gray-700 hover:text-gray-900 transition"
+          className="absolute left-4 flex items-center text-gray-700 hover:text-gray-900 transition"
         >
           <FiArrowLeft className="w-6 h-6" />
         </button>
-        {/* Title centered */}
-        <h1 className="absolute left-1/2 transform -translate-x-1/2 text-xl md:text-2xl font-bold text-gray-800 text-center">
+        {/* Centered Title */}
+        <h1 className="text-3xl font-bold text-gray-900 text-center">
           Potassium Deficit Calculator
         </h1>
-        {/* Placeholder for spacing */}
-        <div style={{ width: "24px" }} />
       </div>
 
-      {/* Spacer to avoid overlay */}
-      <div className="pt-20" />
+      {/* Spacer */}
+      <div className="pt-24" />
 
       {/* Main Content */}
       <div className="flex-1 flex justify-center px-4 pb-8">
@@ -82,15 +80,15 @@ export default function PotassiumCalculator() {
 
           {/* Formula Tile */}
           <div className="bg-indigo-50 p-8 rounded-[1.5rem] shadow-md hover:shadow-xl transition duration-300 ease-in-out">
-            <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-800">Formula used:</h2>
+            <h2 className="text-3xl font-semibold mb-4 text-gray-800">Formula used:</h2>
             <p className="text-gray-700 mb-2 text-lg">
               <b>Potassium deficit (mmol)</b> = (Target K⁺ − Measured K⁺) × Weight (kg) × 0.4
             </p>
             <p className="text-sm text-gray-600">Note: 1 mEq/L = 1 mmol/L</p>
           </div>
 
-          {/* Input Section - larger and colorful */}
-          <div className="grid md:grid-cols-3 gap-8 bg-gray-50 p-8 rounded-[2rem] shadow-md space-y-6 md:space-y-0 transition duration-300 ease-in-out text-xl">
+          {/* Input Section - larger fonts, colorful */}
+          <div className="grid md:grid-cols-3 gap-8 bg-gray-50 p-8 rounded-[2rem] shadow-md space-y-6 md:space-y-0 transition duration-300 ease-in-out text-xl font-semibold">
             <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
             <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
             <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
@@ -105,8 +103,8 @@ export default function PotassiumCalculator() {
 
           {/* Result Section */}
           {deficit > 0 && (
-            <div className="bg-green-50 p-8 rounded-[2rem] shadow-xl mt-8 hover:shadow-2xl transition duration-300 ease-in-out text-xl">
-              <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900 text-center">
+            <div className="bg-green-50 p-8 rounded-[2rem] shadow-xl mt-8 hover:shadow-2xl transition duration-300 ease-in-out text-xl font-semibold">
+              <h2 className="text-3xl mb-4 text-gray-900 text-center">
                 Total potassium deficit: {deficit.toFixed(1)} mmol
               </h2>
               <div>
@@ -128,7 +126,7 @@ export default function PotassiumCalculator() {
             </div>
           )}
 
-          {/* Additional info sections */}
+          {/* Dose & Administration Sections */}
           <div className="grid md:grid-cols-2 gap-8 mt-12">
             <SectionCard
               title="Dose"
@@ -156,7 +154,7 @@ export default function PotassiumCalculator() {
             />
           </div>
 
-          {/* Support & Reference Sections */}
+          {/* Support & Reference */}
           <div className="space-y-10 mt-12 max-w-2xl mx-auto">
             <NotesSection />
             <SafetySection />
