@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp, FiArrowLeft } from "react-icons/fi";
 
 export default function PotassiumCalculator() {
   const router = useRouter();
@@ -60,14 +60,15 @@ export default function PotassiumCalculator() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 flex justify-center">
-      <div className="max-w-4xl w-full space-y-8 bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex justify-center p-6 font-sans">
+      <div className="max-w-4xl w-full space-y-8 bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8 transition-all duration-300">
         {/* Back Button */}
         <button
           onClick={() => router.back()}
-          className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
         >
-          &larr; Back
+          <FiArrowLeft className="text-lg" />
+          Back
         </button>
 
         {/* Title */}
@@ -76,8 +77,8 @@ export default function PotassiumCalculator() {
         </h1>
 
         {/* Formula */}
-        <div className="bg-indigo-50 dark:bg-indigo-900 p-6 rounded-xl shadow-md space-y-3 border border-gray-200 dark:border-gray-700">
-          <h2 className="font-semibold text-lg">Formula used:</h2>
+        <div className="bg-indigo-50 dark:bg-indigo-900 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 space-y-3">
+          <h2 className="font-semibold text-lg mb-2">Formula used:</h2>
           <p className="text-gray-700 dark:text-gray-200">
             Potassium deficit (mmol) = (Target K⁺ − Measured K⁺) × Weight (kg) × 0.4
           </p>
@@ -86,29 +87,29 @@ export default function PotassiumCalculator() {
           </p>
         </div>
 
-        {/* Inputs */}
-        <div className="grid md:grid-cols-3 gap-6 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md space-y-4 md:space-y-0">
+        {/* Input Fields */}
+        <div className="grid md:grid-cols-3 gap-6 bg-white dark:bg-gray-700 p-8 rounded-xl shadow-md space-y-4 md:space-y-0">
           <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
           <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
           <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
         </div>
 
-        {/* Warning */}
+        {/* Potassium Warning */}
         {potassiumWarning && (
           <div className={`p-4 rounded-xl shadow ${warningColor} transition`}>
             ⚠ {potassiumWarning}
           </div>
         )}
 
-        {/* Results */}
+        {/* Result Section */}
         {deficit > 0 && (
-          <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 p-8 rounded-3xl shadow-lg space-y-4 mt-8">
+          <div className="bg-gradient-to-br from-green-50 dark:from-green-900 to-green-100 dark:to-green-800 p-8 rounded-3xl shadow-lg mt-8 space-y-4">
             <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Total potassium deficit: {deficit.toFixed(1)} mmol
             </h2>
             <div>
               <p className="font-semibold mb-2">Suggested replacement (Injecsol K10):</p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200">
+              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200 text-sm">
                 <li>Required volume: <b>{volumeML.toFixed(1)} mL</b></li>
                 <li>≈ <b>{suggestedVials} vial(s)</b> (10 mL per vial)</li>
                 {Number(currentK) > 2.5 && (
@@ -121,13 +122,13 @@ export default function PotassiumCalculator() {
           </div>
         )}
 
-        {/* Sections - spaced out */}
+        {/* Additional Info Sections */}
         <div className="grid md:grid-cols-2 gap-8 mt-10">
           <DoseSection />
           <AdministrationSection />
         </div>
 
-        {/* Notes & Safety & References & Disclaimer - spaced out */}
+        {/* Supporting info and disclaimer */}
         <div className="space-y-8 mt-10">
           <NotesSection />
           <SafetySection />
@@ -139,6 +140,7 @@ export default function PotassiumCalculator() {
   );
 }
 
+// Input component
 function Input({ label, value, setValue }: any) {
   return (
     <div>
@@ -147,12 +149,13 @@ function Input({ label, value, setValue }: any) {
         type="number"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-200 transition"
+        className="w-full border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
       />
     </div>
   );
 }
 
+// Dose info section
 function DoseSection() {
   return (
     <div className="bg-white dark:bg-gray-700 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-600 transition">
@@ -168,6 +171,7 @@ function DoseSection() {
   );
 }
 
+// Administration info
 function AdministrationSection() {
   return (
     <div className="bg-white dark:bg-gray-700 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-600 transition">
@@ -181,6 +185,7 @@ function AdministrationSection() {
   );
 }
 
+// Notes section
 function NotesSection() {
   return (
     <div className="bg-white dark:bg-gray-700 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-600 transition">
@@ -195,6 +200,7 @@ function NotesSection() {
   );
 }
 
+// Safety guidance
 function SafetySection() {
   return (
     <div className="bg-red-50 dark:bg-red-900 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-600 transition">
@@ -209,6 +215,7 @@ function SafetySection() {
   );
 }
 
+// Reference section with toggle
 function ReferenceSection() {
   const [open, setOpen] = useState(false);
   return (
@@ -217,7 +224,9 @@ function ReferenceSection() {
         onClick={() => setOpen(!open)}
         className="flex items-center justify-between w-full font-semibold text-gray-700 dark:text-gray-200 mb-2"
       >
-        Reference {open ? <FiChevronUp /> : <FiChevronDown />}
+        <span className="flex items-center gap-2">
+          Reference {open ? <FiChevronUp /> : <FiChevronDown />}
+        </span>
       </button>
       {open && (
         <div className="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -230,12 +239,13 @@ function ReferenceSection() {
   );
 }
 
+// Short, professional disclaimer
 function DisclaimerSection() {
   return (
-    <div className="mt-8 text-xs text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-4 text-center max-w-2xl mx-auto">
+    <div className="mt-8 text-xs text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-4 max-w-2xl mx-auto text-center">
       <p className="font-semibold mb-1">Disclaimer</p>
-      <p>
-        For guidance only. Verify calculations before clinical use.
+      <p className="text-gray-600 dark:text-gray-400">
+        Use as a guide. Verify all calculations before clinical application.
       </p>
     </div>
   );
