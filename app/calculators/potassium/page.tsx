@@ -1,4 +1,4 @@
-"use client"; // MUST be first line
+"use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -54,36 +54,33 @@ export default function PotassiumCalculator() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex flex-col font-sans relative overflow-hidden">
+    <div className="min-h-screen bg-white font-sans flex flex-col relative overflow-hidden">
 
-      {/* Thicker Top bar with title */}
-      <div className="w-full fixed top-0 z-50 bg-white shadow-md border-b border-gray-300 h-20 flex items-center justify-center px-4">
-        <div className="absolute left-4 flex items-center">
-          <button
-            onClick={() => router.back()}
-            className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition"
-          >
-            <FiArrowLeft className="w-6 h-6" />
-            <span className="font-semibold">Back</span>
-          </button>
-        </div>
-        {/* Centered title */}
-        <h1 className="text-xl md:text-2xl font-bold text-gray-800 text-center">
+      {/* Top bar with back button and title */}
+      <div className="w-full fixed top-0 z-50 bg-white shadow-md border-b border-gray-200 h-20 flex items-center px-4 md:px-8 justify-between">
+        {/* Back Button */}
+        <button
+          onClick={() => router.back()}
+          className="flex items-center text-gray-700 hover:text-gray-900 transition"
+        >
+          <FiArrowLeft className="w-6 h-6" />
+        </button>
+        {/* Title centered */}
+        <h1 className="absolute left-1/2 transform -translate-x-1/2 text-xl md:text-2xl font-bold text-gray-800 text-center">
           Potassium Deficit Calculator
         </h1>
+        {/* Placeholder for spacing */}
+        <div style={{ width: "24px" }} />
       </div>
 
-      {/* Spacer to avoid overlap */}
+      {/* Spacer to avoid overlay */}
       <div className="pt-20" />
 
       {/* Main Content */}
       <div className="flex-1 flex justify-center px-4 pb-8">
         <div className="w-full max-w-5xl bg-white rounded-[2rem] shadow-2xl p-8 md:p-12 space-y-10 overflow-y-auto">
 
-          {/* Main title for fixed header */}
-          {/* Already included above */}
-
-          {/* Formula Tile - Make it bigger */}
+          {/* Formula Tile */}
           <div className="bg-indigo-50 p-8 rounded-[1.5rem] shadow-md hover:shadow-xl transition duration-300 ease-in-out">
             <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-800">Formula used:</h2>
             <p className="text-gray-700 mb-2 text-lg">
@@ -92,7 +89,7 @@ export default function PotassiumCalculator() {
             <p className="text-sm text-gray-600">Note: 1 mEq/L = 1 mmol/L</p>
           </div>
 
-          {/* Larger Input Section */}
+          {/* Input Section - larger and colorful */}
           <div className="grid md:grid-cols-3 gap-8 bg-gray-50 p-8 rounded-[2rem] shadow-md space-y-6 md:space-y-0 transition duration-300 ease-in-out text-xl">
             <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
             <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
@@ -106,7 +103,7 @@ export default function PotassiumCalculator() {
             </div>
           )}
 
-          {/* Result Section - Make it bigger */}
+          {/* Result Section */}
           {deficit > 0 && (
             <div className="bg-green-50 p-8 rounded-[2rem] shadow-xl mt-8 hover:shadow-2xl transition duration-300 ease-in-out text-xl">
               <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900 text-center">
@@ -131,7 +128,7 @@ export default function PotassiumCalculator() {
             </div>
           )}
 
-          {/* Info sections (Dose & Administration) - make bigger */}
+          {/* Additional info sections */}
           <div className="grid md:grid-cols-2 gap-8 mt-12">
             <SectionCard
               title="Dose"
@@ -164,7 +161,7 @@ export default function PotassiumCalculator() {
             <NotesSection />
             <SafetySection />
 
-            {/* Improved Reference toggle */}
+            {/* Reference toggle */}
             <div className="bg-gray-50 p-6 rounded-[1.5rem] shadow-md transition relative">
               <button
                 onClick={() => setOpenRef(!openRef)}
