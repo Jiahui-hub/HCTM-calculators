@@ -52,9 +52,25 @@ export default function PotassiumCalculator() {
     }
   }
 
+  // State for reference toggle
+  const [openRef, setOpenRef] = useState(false);
+
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center p-6 font-sans">
-      <div className="w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl p-10 space-y-8 transition-all duration-300">
+    <div className="min-h-screen bg-gray-100 flex justify-center p-6 font-sans relative">
+      
+      {/* Fixed top ribbon with back button */}
+      <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-lg p-4 flex justify-start">
+        <button
+          onClick={() => router.back()}
+          className="flex items-center gap-3 px-6 py-3 rounded-full bg-gray-200 hover:bg-gray-300 shadow-md text-xl font-semibold transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+        >
+          <FiArrowLeft />
+          Back
+        </button>
+      </div>
+
+      {/* Main container */}
+      <div className="w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl p-10 pt-20 space-y-8 transition-all duration-300">
         {/* Lock theme to light */}
         <style jsx global>{`
           body {
@@ -62,15 +78,6 @@ export default function PotassiumCalculator() {
             color: #111827;
           }
         `}</style>
-
-        {/* Back Button */}
-        <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-shadow focus:outline-none focus:ring-2 focus:ring-indigo-300"
-        >
-          <FiArrowLeft />
-          Back
-        </button>
 
         {/* Main Title */}
         <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-6">
@@ -166,7 +173,6 @@ export default function PotassiumCalculator() {
 }
 
 // Helper Components
-
 function Input({ label, value, setValue }: { label: string; value: string; setValue: (val: string) => void }) {
   return (
     <div className="flex flex-col">
@@ -223,19 +229,19 @@ function SafetySection() {
 }
 
 function ReferenceSection() {
-  const [open, setOpen] = useState(false);
+  const [openRef, setOpenRef] = useState(false);
   return (
-    <div className="bg-gray-50 p-4 rounded-[1.5rem] shadow-md transition">
+    <div className="bg-gray-50 p-4 rounded-[1.5rem] shadow-md transition relative">
       <button
-        onClick={() => setOpen(!open)}
-        className="flex items-center justify-between w-full font-semibold text-gray-700 mb-2"
+        onClick={() => setOpenRef(!openRef)}
+        className="flex items-center justify-between w-full font-semibold text-gray-700 mb-2 focus:outline-none"
       >
         <span className="flex items-center gap-2">
-          Reference {open ? <FiChevronUp /> : <FiChevronDown />}
+          Reference {openRef ? <FiChevronUp /> : <FiChevronDown />}
         </span>
       </button>
-      {open && (
-        <div className="text-sm text-gray-600">
+      {openRef && (
+        <div className="text-sm text-gray-600 mt-2">
           <p>
             Alldredge B.K., Corelli R.L., Ernst M.E., Guglielmo B.J., Jacobson P.A., Kradjan W.A. Koda-Kimble and Young’s Applied Therapeutics. 10th ed. Lippincott; 2013.
           </p>
