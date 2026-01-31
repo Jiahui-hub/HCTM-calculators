@@ -5,56 +5,57 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <h1 className="text-3xl font-bold text-gray-900 text-center mb-6">
-        HCTM Calculators
-      </h1>
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-start py-10">
+      <h1 className="text-4xl font-bold text-gray-900 mb-10">HCTM Calculators</h1>
 
-      <div className="dashboard max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="card bg-white p-6 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Potassium Calculator</h2>
-          <p className="text-gray-700 mb-4">Estimate potassium deficit safely</p>
-          <button
-            onClick={() => router.push("/calculators/potassium")}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 px-4 rounded-lg"
-          >
-            Open
-          </button>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl px-4">
+        {/* Potassium */}
+        <CalculatorCard
+          title="Potassium Calculator"
+          description="Estimate potassium deficit safely"
+          onClick={() => router.push("/calculators/potassium")}
+        />
 
-        <div className="card bg-white p-6 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Sodium Calculator</h2>
-          <p className="text-gray-700 mb-4">Correct sodium safely</p>
-          <button
-            onClick={() => router.push("/calculators/sodium")}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 px-4 rounded-lg"
-          >
-            Open
-          </button>
-        </div>
+        {/* Sodium */}
+        <CalculatorCard
+          title="Sodium Calculator"
+          description="Correct sodium safely"
+          onClick={() => router.push("/calculators/sodium")}
+        />
 
-        <div className="card bg-white p-6 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Magnesium Calculator</h2>
-          <p className="text-gray-700 mb-4">Check magnesium safely</p>
-          <button
-            onClick={() => router.push("/calculators/magnesium")}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 px-4 rounded-lg"
-          >
-            Open
-          </button>
-        </div>
+        {/* Magnesium */}
+        <CalculatorCard
+          title="Magnesium Calculator"
+          description="Check magnesium safely"
+          onClick={() => router.push("/calculators/magnesium")}
+        />
 
-        <div className="card bg-white p-6 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Corrected Calcium</h2>
-          <p className="text-gray-700 mb-4">Adjust calcium for albumin</p>
-          <button
-            onClick={() => router.push("/calculators/calcium")}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 px-4 rounded-lg"
-          >
-            Open
-          </button>
-        </div>
+        {/* Corrected Calcium */}
+        <CalculatorCard
+          title="Corrected Calcium"
+          description="Adjust calcium for albumin"
+          onClick={() => router.push("/calculators/calcium")}
+        />
       </div>
+    </div>
+  );
+}
+
+function CalculatorCard({ title, description, onClick }: any) {
+  return (
+    <div
+      onClick={onClick}
+      className="cursor-pointer bg-white text-gray-900 shadow-md rounded-2xl p-6 flex flex-col justify-between hover:shadow-xl transition-shadow duration-200"
+    >
+      <div>
+        <h2 className="text-2xl font-semibold mb-2">{title}</h2>
+        <p className="text-gray-700">{description}</p>
+      </div>
+      <button
+        className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors duration-200 w-full"
+      >
+        Open
+      </button>
     </div>
   );
 }
