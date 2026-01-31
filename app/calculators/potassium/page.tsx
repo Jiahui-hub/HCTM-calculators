@@ -54,7 +54,7 @@ export default function PotassiumCalculator() {
   }
 
   return (
-    <div className="min-h-screen bg-white font-sans flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-white font-sans flex flex-col">
 
       {/* Top bar: light theme, larger height, centered title */}
       <div className="w-full fixed top-0 z-50 bg-[#F0F4F8] h-28 flex items-center px-4 md:px-8 shadow-md">
@@ -73,11 +73,11 @@ export default function PotassiumCalculator() {
         <div style={{ width: "32px" }} />
       </div>
 
-      {/* Spacer to add space below the fixed top bar */}
-      <div className="pt-28" />
+      {/* Spacer to prevent content being hidden behind the header */}
+      <div className="h-28" /> {/* same height as header */}
 
       {/* Main Content */}
-      <div className="flex-1 flex justify-center px-4 pb-8">
+      <div className="flex-1 flex justify-center px-4 pb-8 mt-4">
         <div className="w-full max-w-5xl bg-white rounded-[2rem] shadow-2xl p-8 md:p-12 space-y-10 overflow-y-auto">
 
           {/* Formula Tile */}
@@ -89,7 +89,7 @@ export default function PotassiumCalculator() {
             <p className="text-sm text-gray-600">Note: 1 mEq/L = 1 mmol/L</p>
           </div>
 
-          {/* Input Section - larger fonts, colorful */}
+          {/* Input Section */}
           <div className="grid md:grid-cols-3 gap-8 bg-gray-50 p-8 rounded-[2rem] shadow-md space-y-6 md:space-y-0 transition duration-300 ease-in-out text-xl font-semibold">
             <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
             <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
@@ -105,7 +105,7 @@ export default function PotassiumCalculator() {
 
           {/* Result Section */}
           {deficit > 0 && (
-            <div className="bg-green-50 p-8 rounded-[2rem] shadow-xl mt-8 hover:shadow-2xl transition duration-300 ease-in-out text-xl font-semibold">
+            <div className="bg-green-50 p-8 rounded-[2rem] shadow-xl mt-8 hover:shadow-2xl transition duration-300 ease-in-out">
               <h2 className="text-3xl mb-4 text-gray-900 text-center">
                 Total potassium deficit: {deficit.toFixed(1)} mmol
               </h2>
