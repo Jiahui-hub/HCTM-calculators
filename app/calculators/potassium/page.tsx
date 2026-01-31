@@ -60,8 +60,8 @@ export default function PotassiumCalculator() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 sm:p-6">
-      <div className="max-w-3xl mx-auto space-y-6">
+    <div className="min-h-screen bg-slate-100 p-4 sm:p-6">
+      <div className="max-w-3xl mx-auto space-y-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
 
         {/* Back Button */}
         <button
@@ -100,7 +100,9 @@ export default function PotassiumCalculator() {
 
         {/* Results */}
         {deficit > 0 && (
-          <div className="bg-green-50 dark:bg-green-900 p-4 rounded-xl shadow space-y-3">
+          <div className="bg-gradient-to-br from-green-50 to-green-100 
+                dark:from-green-900 dark:to-green-800
+                p-5 rounded-2xl shadow-md space-y-3">
             <p className="font-semibold text-lg">
               Total potassium deficit: {deficit.toFixed(1)} mmol
             </p>
@@ -110,7 +112,9 @@ export default function PotassiumCalculator() {
             <p>Required volume: <b>{volumeML.toFixed(1)} mL</b></p>
             <p>≈ <b>{suggestedVials} vial(s)</b> (10 mL per vial)</p>
             {Number(currentK) > 2.5 && (
-              <p className="text-red-600 dark:text-red-400">
+              <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full
+              bg-red-100 dark:bg-red-800
+              text-red-700 dark:text-red-200 text-sm font-medium">
                 ⚠ Measured potassium &gt; 2.5 mmol/L — adjust infusion carefully
               </p>
             )}
@@ -129,10 +133,10 @@ export default function PotassiumCalculator() {
         {/* Safety */}
         <SafetySection />
 
+        <DisclaimerSection />
+
         {/* Reference */}
         <ReferenceSection />
-
-        <DisclaimerSection />
 
       </div>
     </div>
@@ -155,7 +159,7 @@ function Input({ label, value, setValue }: any) {
 
 function DoseSection() {
   return (
-    <div className="bg-yellow-50 dark:bg-yellow-900 p-4 rounded-xl space-y-2">
+    <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm space-y-2 border border-gray-200 dark:border-gray-700">
       <h2 className="font-bold text-lg">Dose</h2>
       <p>Hypokalaemia:</p>
       <ul className="list-disc pl-5 space-y-1">
@@ -171,7 +175,7 @@ function DoseSection() {
 
 function AdministrationSection() {
   return (
-    <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-xl space-y-2">
+    <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm space-y-2 border border-gray-200 dark:border-gray-700">
       <h2 className="font-bold text-lg">Administration</h2>
       <ul className="list-disc pl-5 space-y-1">
         <li>IV infusion: 1g in 100 mL NS over 1 hr or 2g in 200 mL NS over 2 hrs</li>
@@ -184,7 +188,7 @@ function AdministrationSection() {
 
 function NotesSection() {
   return (
-    <div className="bg-purple-50 dark:bg-purple-900 p-4 rounded-xl space-y-2">
+    <div className="bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm space-y-2 border border-gray-200 dark:border-gray-700">
       <h2 className="font-bold text-lg">Notes</h2>
       <ul className="list-disc pl-5 space-y-1">
         <li>1 vial of K10% = 1g KCl</li>
@@ -212,20 +216,27 @@ function SafetySection() {
 
 function ReferenceSection() {
   return (
-    <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-xl space-y-1 text-sm">
-      <p className="font-semibold">Reference:</p>
-      <p>
-        Alldredge B.K., Corelli R.L., Ernst M.E., Guglielmo B.J., Jacobson P.A., Kradjan W.A. 
-        Koda-Kimble and Young’s Applied Therapeutics: The Clinical Use of Drugs. 10th ed. 
-        Lippincott; Philadelphia, PA, USA: 2013.
-      </p>
-    </div>
+    <details className="bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
+      <summary className="cursor-pointer font-semibold text-gray-700 list-none flex items-center justify-between">
+        Reference
+        <span className="text-sm text-gray-400">Click to expand</span>
+      </summary>
+
+      <div className="mt-3 text-sm text-gray-600 space-y-1">
+        <p>
+          Alldredge B.K., Corelli R.L., Ernst M.E., Guglielmo B.J., Jacobson P.A.,
+          Kradjan W.A. Koda-Kimble and Young’s Applied Therapeutics: The Clinical
+          Use of Drugs. 10th ed. Lippincott; Philadelphia, PA, USA: 2013.
+        </p>
+      </div>
+    </details>
   );
 }
 
 function DisclaimerSection() {
   return (
-    <div className="mt-6 text-xs text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 p-4 rounded-xl">
+    <div className="mt-8 text-xs text-gray-500 dark:text-gray-400 
+                border-t border-gray-200 dark:border-gray-700 pt-4">
       <p className="font-semibold mb-1">Disclaimer</p>
       <p>
         This calculator is intended for educational and clinical support purposes only.
