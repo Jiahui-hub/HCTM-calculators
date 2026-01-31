@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp, FiArrowLeft } from "react-icons/fi";
 
 export default function MagnesiumCalculator() {
   const router = useRouter();
