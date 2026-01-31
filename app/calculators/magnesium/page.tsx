@@ -11,7 +11,7 @@ export default function MagnesiumCalculator() {
   const [currentMg, setCurrentMg] = useState("");
   const [targetMg, setTargetMg] = useState("0.9"); // mmol/L
 
-  // Magnesium deficit calculation (example formula)
+  // Magnesium deficit calculation
   const deficit =
     weight && currentMg && targetMg
       ? (Number(targetMg) - Number(currentMg)) * Number(weight) * 0.2
@@ -21,7 +21,7 @@ export default function MagnesiumCalculator() {
   const mmolPerGram = 4;
   const volumeG = deficit > 0 ? deficit / mmolPerGram : 0;
 
-  // Suggested dosage (simplified, adjust according to ranges)
+  // Suggested dosage text
 let suggestedDose = "";
 if (volumeG > 0) {
   if (volumeG <= 1) suggestedDose = "1 g IM";
@@ -30,102 +30,122 @@ if (volumeG > 0) {
 }
 
 // Calculate volume and ampoules for display
-const volumeML = deficit > 0 ? deficit * 5 : 0; // 1 g MgSO4 = 5 mL
+const volumeML = deficit > 0 ? (deficit / mmolPerGram) * 5 : 0; // 1g MgSO4 = 5 mL
 let suggestedAmpoules = 0;
 let suggestedDoseText = "";
 
 if (volumeML > 0) {
   suggestedAmpoules = Math.ceil(volumeML / 5);
-
-  if (volumeML <= 5) {
-    suggestedDoseText = `IM: 1 ampoule (~${volumeML.toFixed(1)} mL)`;
-  } else if (volumeML <= 15) {
-    suggestedDoseText = `Slow IV: ${volumeML.toFixed(1)} mL (~${suggestedAmpoules} ampoules)`;
-  } else {
-    suggestedDoseText = `${volumeML.toFixed(1)} mL (~${suggestedAmpoules} ampoules) over several hours`;
-  }
+  suggestedDoseText =
+    volumeML <= 5
+      ? `IM: ${volumeML.toFixed(1)} mL (~${suggestedAmpoules} ampoule)`
+      : `Slow IV: ${volumeML.toFixed(1)} mL (~${suggestedAmpoules} ampoules) over several hours`;
 }
 
-  return (
-    <div className="min-h-screen bg-gray-100 p-4 sm:p-6">
-      <div className="max-w-3xl mx-auto space-y-6">
+  // State for reference toggle
+  const [openRef, setOpenRef] = useState(false);
 
-        {/* Back Button */}
+  return (
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 font-sans">
+      {/* Top bar */}
+      <div className="w-full fixed top-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-lg flex items-center px-4 py-3">
         <button
           onClick={() => router.back()}
-          className="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300"
+          className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition"
         >
           &larr; Back
         </button>
+      </div>
 
-        <h1 className="text-3xl font-bold text-gray-900">
-          Magnesium Deficit Calculator
-        </h1>
+      {/* Spacer */}
+      <div className="pt-16" />
 
-        {/* Formula */}
-        <div className="bg-indigo-50 text-indigo-900 p-4 rounded-xl">
-          <p className="font-semibold mb-1">Formula used:</p>
-          <p>Mg deficit (mmol) = (Target Mg − Measured Mg) × Weight (kg) × 0.2</p>
-          <p className="mt-2">Note: 1 mmol/L = 1 mEq/L</p>
-        </div>
+      {/* Main content */}
+      <div className="flex-1 flex justify-center px-4 pb-8">
+        <div className="w-full max-w-3xl bg-white rounded-[2rem] shadow-2xl p-8 md:p-10 space-y-8 overflow-y-auto">
 
-        {/* Inputs */}
-        <div className="bg-white p-4 rounded-xl shadow space-y-4">
-          <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
-          <Input label="Measured magnesium (mmol/L)" value={currentMg} setValue={setCurrentMg} />
-          <Input label="Target magnesium (mmol/L)" value={targetMg} setValue={setTargetMg} />
-        </div>
+          {/* Title */}
+          <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-6">
+            Magnesium Deficit Calculator
+          </h1>
 
-        {/* Results */}
-        {deficit > 0 && (
-          <div className="bg-green-50 p-4 rounded-xl shadow space-y-3">
-            <p className="font-semibold text-lg">
-              Total magnesium deficit: {deficit.toFixed(1)} mmol
+          {/* Formula */}
+          <div className="bg-indigo-50 p-6 rounded-[1.5rem] shadow-md hover:shadow-xl transition duration-300 ease-in-out">
+            <h2 className="text-xl font-semibold mb-3 text-gray-800">Formula used:</h2>
+            <p className="text-gray-700 mb-2">
+              <b>Mg deficit (mmol)</b> = (Target Mg − Measured Mg) × Weight (kg) × 0.2
             </p>
-            
-            {/* Calculate volume in mL and ampoules */}
-            {(() => {
-             const volumeML = (deficit / mmolPerGram) * 5; // 1g = 5 mL ampoule
-             const suggestedAmpoules = Math.ceil(volumeML / 5);
+            <p className="text-sm text-gray-600">Note: 1 mmol/L = 1 mEq/L</p>
+          </div>
 
-             const suggestedDoseText =
-              volumeML <= 5
-                ? `IM: ${volumeML.toFixed(1)} mL (~${suggestedAmpoules} ampoule)`
-                : `Slow IV: ${volumeML.toFixed(1)} mL (~${suggestedAmpoules} ampoules) over several hours`;
+          {/* Inputs */}
+          <div className="bg-gray-50 p-6 rounded-[1.5rem] shadow-md space-y-4 md:flex md:space-y-0 md:gap-4 transition duration-300 ease-in-out">
+            <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
+            <Input label="Measured magnesium (mmol/L)" value={currentMg} setValue={setCurrentMg} />
+            <Input label="Target magnesium (mmol/L)" value={targetMg} setValue={setTargetMg} />
+          </div>
 
-             return (
-              <>
-                 <p>Suggested replacement: <b>{suggestedDoseText}</b></p>
-                 <p>Equivalent: <b>{(volumeML / 5).toFixed(1)} g MgSO4</b></p>
-                 <p>Approx. <b>{suggestedAmpoules} ampoule(s)</b> (5 mL per ampoule)</p>
-              </>
-             );
-        })()}
-  </div>
-)}
+          {/* Warning Message */}
+          {Number(currentMg) > 0 && (
+            <div
+              className={`p-4 rounded-[1rem] shadow ${
+                Number(currentMg) < 0.9
+                  ? "bg-red-100 text-red-800"
+                  : "bg-yellow-100 text-yellow-800"
+              } transition`}
+            >
+              ⚠ {Number(currentMg) < 0.9 ? "Severe hypomagnesaemia" : "Mild hypomagnesaemia"}
+            </div>
+          )}
 
+          {/* Results */}
+          {deficit > 0 && (
+            <div className="bg-green-50 p-6 rounded-[1.5rem] shadow-xl mt-8 hover:shadow-2xl transition duration-300 ease-in-out">
+              <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900 text-center">
+                Total magnesium deficit: {deficit.toFixed(1)} mmol
+              </h2>
+              <div>
+                <p className="font-semibold mb-2">Suggested replacement (MgSO₄):</p>
+                <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm max-w-xl mx-auto">
+                  <li>
+                    Required volume: <b>{volumeML.toFixed(1)} mL</b>
+                  </li>
+                  <li>
+                    ≈ <b>{suggestedAmpoules} ampoule(s)</b> (5 mL per ampoule)
+                  </li>
+                  {Number(currentMg) > 0.9 && (
+                    <li className="flex items-center gap-2 bg-red-100 p-2 rounded">
+                      ⚠ Measured magnesium &gt; 0.9 mmol/L — adjust infusion carefully
+                    </li>
+                  )}
+                </ul>
+                <p className="mt-4 text-center font-semibold">{suggestedDoseText}</p>
+              </div>
+            </div>
+          )}
 
-        {/* Dose Section */}
-        <DoseSection />
+          {/* Dose Section */}
+          <DoseSection />
 
-        {/* Administration Section */}
-        <AdministrationSection />
+          {/* Administration Section */}
+          <AdministrationSection />
 
-        {/* Notes Section */}
-        <NotesSection />
+          {/* Notes Section */}
+          <NotesSection />
 
-        {/* Reference Section */}
-        <ReferenceSection />
+          {/* Reference Section */}
+          <ReferenceSection openRef={openRef} setOpenRef={setOpenRef} />
 
+        </div>
       </div>
     </div>
   );
 }
 
-// Input Component
-function Input({ label, value, setValue }: any) {
+// Helper Components
+function Input({ label, value, setValue }: { label: string; value: string; setValue: (val: string) => void }) {
   return (
-    <div>
+    <div className="flex-1">
       <label className="block text-sm font-medium mb-1 text-gray-700">{label}</label>
       <input
         type="number"
@@ -137,14 +157,13 @@ function Input({ label, value, setValue }: any) {
   );
 }
 
-// Dose Section
 function DoseSection() {
   return (
     <div className="bg-yellow-50 p-4 rounded-xl space-y-2">
       <h2 className="font-bold text-lg">Dose</h2>
       <p>Mild hypomagnesaemia:</p>
       <ul className="list-disc pl-5 space-y-1">
-        <li>IM: 1g (8 mEq) every 6 hours for 4 doses</li>
+        <li>IM: 1 g (8 mEq) every 6 hours for 4 doses</li>
       </ul>
       <p>Severe hypomagnesaemia:</p>
       <ul className="list-disc pl-5 space-y-1">
@@ -155,7 +174,6 @@ function DoseSection() {
   );
 }
 
-// Administration Section
 function AdministrationSection() {
   return (
     <div className="bg-blue-50 p-4 rounded-xl space-y-2">
@@ -170,13 +188,12 @@ function AdministrationSection() {
   );
 }
 
-// Notes Section
 function NotesSection() {
   return (
     <div className="bg-purple-50 p-4 rounded-xl space-y-2">
       <h2 className="font-bold text-lg">Notes</h2>
       <ul className="list-disc pl-5 space-y-1">
-        <li>MgSO4 1 g = 4 mmol Mg²⁺</li>
+        <li>MgSO₄ 1 g = 4 mmol Mg²⁺</li>
         <li>Each 5 mL contains 10 mmol (20 mEq Mg²⁺ & 20 mEq SO₄²⁻)</li>
         <li>1 mL = 493 mg MgSO₄ (2 mmol = 4 mEq Mg, 2 mmol = 4 mEq SO₄)</li>
         <li>Max dose: 30–40 g/day</li>
@@ -185,21 +202,20 @@ function NotesSection() {
   );
 }
 
-// Reference Section (collapsible)
-function ReferenceSection() {
-  const [open, setOpen] = useState(false);
-
+function ReferenceSection({ openRef, setOpenRef }: { openRef: boolean; setOpenRef: (val: boolean) => void }) {
   return (
     <div className="bg-gray-100 p-4 rounded-xl">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpenRef(!openRef)}
         className="flex items-center justify-between w-full font-semibold text-gray-800"
       >
-        Reference {open ? <FiChevronUp /> : <FiChevronDown />}
+        <span className="flex items-center gap-2">
+          Reference {openRef ? <FiChevronUp /> : <FiChevronDown />}
+        </span>
       </button>
-      {open && (
+      {openRef && (
         <div className="mt-2 text-sm text-gray-700 space-y-1">
-          {/* Add your references below */}
+          {/* Add your references here */}
           <p>Sample reference line for you to copy</p>
         </div>
       )}
