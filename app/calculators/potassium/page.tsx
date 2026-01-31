@@ -1,7 +1,8 @@
-"use client";
+"use client"; // MUST be first line
 
-import { useState } from "react";
+import React, { useState } from "react"; // import React + useState
 import { useRouter } from "next/navigation";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 export default function PotassiumCalculator() {
   const router = useRouter();
@@ -215,23 +216,30 @@ function SafetySection() {
 }
 
 function ReferenceSection() {
-  return (
-    <details className="bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
-      <summary className="cursor-pointer font-semibold text-gray-700 list-none flex items-center justify-between">
-        Reference
-        <span className="text-sm text-gray-400">Click to expand</span>
-      </summary>
+  const [open, setOpen] = useState(false);
 
-      <div className="mt-3 text-sm text-gray-600 space-y-1">
-        <p>
-          Alldredge B.K., Corelli R.L., Ernst M.E., Guglielmo B.J., Jacobson P.A.,
-          Kradjan W.A. Koda-Kimble and Young’s Applied Therapeutics: The Clinical
-          Use of Drugs. 10th ed. Lippincott; Philadelphia, PA, USA: 2013.
-        </p>
-      </div>
-    </details>
+  return (
+    <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-200">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center justify-between w-full font-semibold text-gray-700"
+      >
+        Reference {open ? <FiChevronUp /> : <FiChevronDown />}
+      </button>
+
+      {open && (
+        <div className="mt-3 text-sm text-gray-600 space-y-1">
+          <p>
+            Alldredge B.K., Corelli R.L., Ernst M.E., Guglielmo B.J., Jacobson P.A.,
+            Kradjan W.A. Koda-Kimble and Young’s Applied Therapeutics: The Clinical
+            Use of Drugs. 10th ed. Lippincott; Philadelphia, PA, USA: 2013.
+          </p>
+        </div>
+      )}
+    </div>
   );
 }
+
 
 function DisclaimerSection() {
   return (

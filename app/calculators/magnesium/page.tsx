@@ -22,12 +22,22 @@ export default function MagnesiumCalculator() {
   const volumeG = deficit > 0 ? deficit / mmolPerGram : 0;
 
   // Suggested dosage (simplified, adjust according to ranges)
-  let suggestedDose = "";
-  if (volumeG > 0) {
-    if (volumeG <= 1) suggestedDose = "1 g IM";
-    else if (volumeG <= 5) suggestedDose = "Slow IV infusion 1-5 g";
-    else suggestedDose = `${volumeG.toFixed(1)} g over several hours`;
-  }
+let suggestedDose = "";
+if (volumeG > 0) {
+  if (volumeG <= 1) suggestedDose = "1 g IM";
+  else if (volumeG <= 5) suggestedDose = "Slow IV infusion 1-5 g";
+  else suggestedDose = `${volumeG.toFixed(1)} g over several hours`;
+}
+
+// Calculate ampoules separately
+let suggestedAmpoules = 0;
+if (volumeG > 0) {
+  const volumeML = volumeG * 5; // 1g = 5 mL ampoule assumption
+  if (volumeML <= 5) suggestedAmpoules = 1;
+  else if (volumeML <= 10) suggestedAmpoules = 2;
+  else if (volumeML <= 15) suggestedAmpoules = 3;
+  else suggestedAmpoules = Math.ceil(volumeML / 5);
+}
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-6">
@@ -67,6 +77,7 @@ export default function MagnesiumCalculator() {
             </p>
             <p>Suggested replacement: <b>{suggestedDose}</b></p>
             <p>Equivalent: <b>{volumeG.toFixed(1)} g MgSO4</b></p>
+            <p>Approx. <b>{suggestedAmpoules} ampoule(s)</b> (5 mL per ampoule)</p>
           </div>
         )}
 
