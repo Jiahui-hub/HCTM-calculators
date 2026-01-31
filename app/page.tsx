@@ -5,57 +5,27 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-start py-10">
-      <h1 className="text-4xl font-bold text-gray-900 mb-10">HCTM Calculators</h1>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl px-4">
-        {/* Potassium */}
-        <CalculatorCard
-          title="Potassium Calculator"
-          description="Estimate potassium deficit safely"
-          onClick={() => router.push("/calculators/potassium")}
-        />
-
-        {/* Sodium */}
-        <CalculatorCard
-          title="Sodium Calculator"
-          description="Correct sodium safely"
-          onClick={() => router.push("/calculators/sodium")}
-        />
-
-        {/* Magnesium */}
-        <CalculatorCard
-          title="Magnesium Calculator"
-          description="Check magnesium safely"
-          onClick={() => router.push("/calculators/magnesium")}
-        />
-
-        {/* Corrected Calcium */}
-        <CalculatorCard
-          title="Corrected Calcium"
-          description="Adjust calcium for albumin"
-          onClick={() => router.push("/calculators/calcium")}
-        />
+    <div className="dashboard bg-gray-50 text-gray-900 min-h-screen">
+      <div className="card">
+        <h2>Potassium Calculator</h2>
+        <p>Estimate potassium deficit safely</p>
+        <button onClick={() => router.push("/calculators/potassium")}>Open</button>
       </div>
-    </div>
-  );
-}
-
-function CalculatorCard({ title, description, onClick }: any) {
-  return (
-    <div
-      onClick={onClick}
-      className="cursor-pointer bg-white text-gray-900 shadow-md rounded-2xl p-6 flex flex-col justify-between hover:shadow-xl transition-shadow duration-200"
-    >
-      <div>
-        <h2 className="text-2xl font-semibold mb-2">{title}</h2>
-        <p className="text-gray-700">{description}</p>
+      <div className="card">
+        <h2>Sodium Calculator</h2>
+        <p>Correct sodium safely</p>
+        <button onClick={() => router.push("/calculators/sodium")}>Open</button>
       </div>
-      <button
-        className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors duration-200 w-full"
-      >
-        Open
-      </button>
+      <div className="card">
+        <h2>Magnesium Calculator</h2>
+        <p>Check magnesium safely</p>
+        <button onClick={() => router.push("/calculators/magnesium")}>Open</button>
+      </div>
+      <div className="card">
+        <h2>Corrected Calcium</h2>
+        <p>Adjust calcium for albumin</p>
+        <button onClick={() => router.push("/calculators/calcium")}>Open</button>
+      </div>
     </div>
   );
 }
