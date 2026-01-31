@@ -29,14 +29,21 @@ if (volumeG > 0) {
   else suggestedDose = `${volumeG.toFixed(1)} g over several hours`;
 }
 
-// Calculate ampoules separately
+// Calculate volume and ampoules for display
+const volumeML = deficit > 0 ? deficit * 5 : 0; // 1 g MgSO4 = 5 mL
 let suggestedAmpoules = 0;
-if (volumeG > 0) {
-  const volumeML = volumeG * 5; // 1g = 5 mL ampoule assumption
-  if (volumeML <= 5) suggestedAmpoules = 1;
-  else if (volumeML <= 10) suggestedAmpoules = 2;
-  else if (volumeML <= 15) suggestedAmpoules = 3;
-  else suggestedAmpoules = Math.ceil(volumeML / 5);
+let suggestedDoseText = "";
+
+if (volumeML > 0) {
+  suggestedAmpoules = Math.ceil(volumeML / 5);
+
+  if (volumeML <= 5) {
+    suggestedDoseText = `IM: 1 ampoule (~${volumeML.toFixed(1)} mL)`;
+  } else if (volumeML <= 15) {
+    suggestedDoseText = `Slow IV: ${volumeML.toFixed(1)} mL (~${suggestedAmpoules} ampoules)`;
+  } else {
+    suggestedDoseText = `${volumeML.toFixed(1)} mL (~${suggestedAmpoules} ampoules) over several hours`;
+  }
 }
 
   return (
@@ -76,8 +83,7 @@ if (volumeG > 0) {
               Total magnesium deficit: {deficit.toFixed(1)} mmol
             </p>
             <p>Suggested replacement: <b>{suggestedDose}</b></p>
-            <p>Equivalent: <b>{volumeG.toFixed(1)} g MgSO4</b></p>
-            <p>Approx. <b>{suggestedAmpoules} ampoule(s)</b> (5 mL per ampoule)</p>
+            <p>Total volume: <b>{volumeML.toFixed(1)} mL</b> (~{suggestedAmpoules} ampoule(s))</p>
           </div>
         )}
 
