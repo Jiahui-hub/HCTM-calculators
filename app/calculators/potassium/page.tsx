@@ -56,22 +56,24 @@ export default function PotassiumCalculator() {
   return (
     <div className="min-h-screen bg-white font-sans flex flex-col relative overflow-hidden">
 
-      {/* Top bar with solid color, larger height, centered title */}
-      <div className="w-full fixed top-0 z-50 bg-[#A7C7E7] h-24 flex items-center px-6 justify-center shadow-md">
-        {/* Back Button */}
+      {/* Top bar: solid color, left back button, centered title */}
+      <div className="w-full fixed top-0 z-50 bg-[#A7C7E7] h-24 flex items-center px-4 md:px-8 shadow-md">
+        {/* Back Button - icon only, left side */}
         <button
           onClick={() => router.back()}
-          className="absolute left-4 flex items-center text-gray-700 hover:text-gray-900 transition"
+          className="flex items-center focus:outline-none"
         >
-          <FiArrowLeft className="w-6 h-6" />
+          <FiArrowLeft className="w-6 h-6 text-gray-700" />
         </button>
-        {/* Centered Title */}
-        <h1 className="text-3xl font-bold text-gray-900 text-center">
+        {/* Title centered */}
+        <h1 className="flex-1 text-3xl font-bold text-gray-900 text-center">
           Potassium Deficit Calculator
         </h1>
+        {/* Empty div for right side spacing */}
+        <div style={{ width: "24px" }} />
       </div>
 
-      {/* Spacer */}
+      {/* Spacer to account for fixed header */}
       <div className="pt-24" />
 
       {/* Main Content */}
