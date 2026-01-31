@@ -35,6 +35,30 @@ export default function PotassiumCalculator() {
     else suggestedVials = Math.ceil(volumeML / vialML);
   }
 
+    // Potassium severity warnings
+  let potassiumWarning = "";
+  let warningColor = "";
+
+  const k = Number(currentK);
+
+  if (k > 0) {
+    if (k < 2.5) {
+      potassiumWarning =
+        "Severe hypokalaemia (<2.5 mmol/L). Continuous ECG monitoring required. Avoid rapid infusion.";
+      warningColor = "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200";
+    } else if (k < 3.0) {
+      potassiumWarning =
+        "Moderate hypokalaemia (2.5–3.0 mmol/L). IV replacement with close monitoring.";
+      warningColor =
+        "bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-200";
+    } else if (k < 3.5) {
+      potassiumWarning =
+        "Mild hypokalaemia (3.0–3.5 mmol/L). Oral replacement preferred if possible.";
+      warningColor =
+        "bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-200";
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 sm:p-6">
       <div className="max-w-3xl mx-auto space-y-6">
@@ -67,6 +91,12 @@ export default function PotassiumCalculator() {
           <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
           <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
         </div>
+
+        {potassiumWarning && (
+          <div className={`p-4 rounded-xl shadow ${warningColor}`}>
+            ⚠ {potassiumWarning}
+          </div>
+        )}
 
         {/* Results */}
         {deficit > 0 && (
@@ -101,6 +131,8 @@ export default function PotassiumCalculator() {
 
         {/* Reference */}
         <ReferenceSection />
+
+        <DisclaimerSection />
 
       </div>
     </div>
@@ -170,8 +202,9 @@ function SafetySection() {
       <h2 className="font-bold text-lg">Safety Guidance</h2>
       <ul className="list-disc pl-5 space-y-1">
         <li>Check renal function and cardiac status before IV replacement</li>
-        <li>Monitor potassium levels regularly during infusion</li>
-        <li>Adjust dose according to clinical response</li>
+        <li>Central venous access required for rates &gt; 20 mmol/hr</li>
+        <li>Re-check serum potassium after every 40–60 mmol replacement</li>
+        <li>Correct hypomagnesaemia concurrently if present</li>
       </ul>
     </div>
   );
@@ -185,6 +218,20 @@ function ReferenceSection() {
         Alldredge B.K., Corelli R.L., Ernst M.E., Guglielmo B.J., Jacobson P.A., Kradjan W.A. 
         Koda-Kimble and Young’s Applied Therapeutics: The Clinical Use of Drugs. 10th ed. 
         Lippincott; Philadelphia, PA, USA: 2013.
+      </p>
+    </div>
+  );
+}
+
+function DisclaimerSection() {
+  return (
+    <div className="mt-6 text-xs text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 p-4 rounded-xl">
+      <p className="font-semibold mb-1">Disclaimer</p>
+      <p>
+        This calculator is intended for educational and clinical support purposes only.
+        Calculations must be independently verified and should not be used alone to guide
+        patient care, nor should they substitute for clinical judgment, institutional
+        protocols, or specialist consultation.
       </p>
     </div>
   );
