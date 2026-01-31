@@ -52,16 +52,17 @@ export default function PotassiumCalculator() {
     }
   }
 
+  // State for reference toggle
   const [openRef, setOpenRef] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex flex-col items-center p-4 font-sans relative">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex flex-col font-sans relative overflow-hidden">
       
-      {/* Fixed top ribbon with back button */}
-      <div className="fixed top-0 left-0 w-full z-50 bg-white shadow-lg p-4 flex justify-start items-center">
+      {/* Top navigation bar with back button */}
+      <div className="w-full fixed top-0 z-50 bg-white shadow-md py-3 px-4 flex items-center justify-start backdrop-blur-lg bg-opacity-70">
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-3 px-6 py-3 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg text-white text-xl font-semibold transition-transform transform hover:scale-105"
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg text-white font-semibold transition transform hover:scale-105"
         >
           <FiArrowLeft />
           Back
@@ -69,101 +70,104 @@ export default function PotassiumCalculator() {
       </div>
 
       {/* Main content container */}
-      <div className="w-full max-w-5xl bg-white rounded-[2rem] shadow-2xl p-8 mt-20 mb-10 overflow-hidden">
-        {/* Title */}
-        <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-8">
-          Potassium Deficit Calculator
-        </h1>
+      <div className="flex-1 flex justify-center pt-20 px-4 pb-8">
+        <div className="w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl p-8 md:p-10 space-y-8 transition-all duration-300 overflow-y-auto">
+          
+          {/* Main Title */}
+          <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-6">
+            Potassium Deficit Calculator
+          </h1>
 
-        {/* Formula Box */}
-        <div className="bg-indigo-100 p-6 rounded-[1.5rem] shadow-md mb-8 hover:shadow-xl transition duration-300">
-          <h2 className="text-xl font-semibold mb-3 text-gray-800">Formula used:</h2>
-          <p className="text-gray-700 mb-2">
-            <b>Potassium deficit (mmol)</b> = (Target K⁺ − Measured K⁺) × Weight (kg) × 0.4
-          </p>
-          <p className="text-sm text-gray-600">Note: 1 mEq/L = 1 mmol/L</p>
-        </div>
-
-        {/* Inputs Section */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
-          <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
-          <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
-        </div>
-
-        {/* Warning Message */}
-        {potassiumWarning && (
-          <div className={`p-4 rounded-[1rem] shadow ${warningColor} mb-8`}>
-            ⚠ {potassiumWarning}
+          {/* Formula Tile */}
+          <div className="bg-indigo-50 p-6 rounded-[1.5rem] shadow-md hover:shadow-xl transition duration-300 ease-in-out">
+            <h2 className="text-xl font-semibold mb-3 text-gray-800">Formula used:</h2>
+            <p className="text-gray-700 mb-2">
+              <b>Potassium deficit (mmol)</b> = (Target K⁺ − Measured K⁺) × Weight (kg) × 0.4
+            </p>
+            <p className="text-sm text-gray-600">Note: 1 mEq/L = 1 mmol/L</p>
           </div>
-        )}
 
-        {/* Results Section */}
-        {deficit > 0 && (
-          <div className="bg-green-50 p-8 rounded-[2rem] shadow-xl mb-10 hover:shadow-2xl transition duration-300">
-            <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-gray-900 text-center">
-              Total potassium deficit: {deficit.toFixed(1)} mmol
-            </h2>
-            <div className="text-center">
-              <p className="font-semibold mb-2">Suggested replacement (Injecsol K10):</p>
-              <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm max-w-xl mx-auto text-left">
-                <li>
-                  Required volume: <b>{volumeML.toFixed(1)} mL</b>
-                </li>
-                <li>
-                  ≈ <b>{suggestedVials} vial(s)</b> (10 mL per vial)
-                </li>
-                {Number(currentK) > 2.5 && (
-                  <li className="flex items-center gap-2 bg-red-100 p-2 rounded">
-                    ⚠ Measured potassium &gt; 2.5 mmol/L — adjust infusion carefully
-                  </li>
-                )}
-              </ul>
+          {/* Input Cards with smooth transitions */}
+          <div className="grid md:grid-cols-3 gap-6 bg-gray-50 p-6 rounded-[1.5rem] shadow-md space-y-4 md:space-y-0 transition duration-300 ease-in-out">
+            <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
+            <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
+            <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
+          </div>
+
+          {/* Warning Message with smooth fade */}
+          {potassiumWarning && (
+            <div className={`p-4 rounded-[1rem] shadow ${warningColor} transition-opacity duration-500`}>
+              ⚠ {potassiumWarning}
             </div>
+          )}
+
+          {/* Result section with animation */}
+          {deficit > 0 && (
+            <div className="bg-green-50 p-6 rounded-[1.5rem] shadow-xl mt-8 hover:shadow-2xl transition duration-300 ease-in-out">
+              <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900 text-center">
+                Total potassium deficit: {deficit.toFixed(1)} mmol
+              </h2>
+              <div>
+                <p className="font-semibold mb-2">Suggested replacement (Injecsol K10):</p>
+                <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm max-w-xl mx-auto">
+                  <li>
+                    Required volume: <b>{volumeML.toFixed(1)} mL</b>
+                  </li>
+                  <li>
+                    ≈ <b>{suggestedVials} vial(s)</b> (10 mL per vial)
+                  </li>
+                  {Number(currentK) > 2.5 && (
+                    <li className="flex items-center gap-2 bg-red-100 p-2 rounded">
+                      ⚠ Measured potassium &gt; 2.5 mmol/L — adjust infusion carefully
+                    </li>
+                  )}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Info Sections as cards with smooth hover effects */}
+          <div className="grid md:grid-cols-2 gap-6 mt-10">
+            <SectionCard
+              title="Dose"
+              content={
+                <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm">
+                  <li>IV infusion: individualized; initial 40-60 mEq</li>
+                  <li>Prophylaxis (PO): 20 mmol/day; adjust per potassium level</li>
+                  <li>Normal daily requirement: 40-80 mEq</li>
+                  <li>
+                    Potassium &gt; 2.5 mmol/L: IV 10-15 mmol/hr, max 200 mmol/day
+                  </li>
+                  <li>Potassium 3–3.5 mmol/L: PO 40–100 mmol/day in 2–3 doses</li>
+                </ul>
+              }
+            />
+            <SectionCard
+              title="Administration"
+              content={
+                <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm">
+                  <li>IV infusion: 1g in 100 mL NS over 1 hr or 2g in 200 mL NS over 2 hrs</li>
+                  <li>Peripheral: 10 mEq/100 mL</li>
+                  <li>Central: 20–40 mEq/100 mL</li>
+                </ul>
+              }
+            />
           </div>
-        )}
 
-        {/* Additional Info Sections */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          <SectionCard
-            title="Dose"
-            content={
-              <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm">
-                <li>IV infusion: individualized; initial 40-60 mEq</li>
-                <li>Prophylaxis (PO): 20 mmol/day; adjust per potassium level</li>
-                <li>Normal daily requirement: 40-80 mEq</li>
-                <li>
-                  Potassium &gt; 2.5 mmol/L: IV 10-15 mmol/hr, max 200 mmol/day
-                </li>
-                <li>Potassium 3–3.5 mmol/L: PO 40–100 mmol/day in 2–3 doses</li>
-              </ul>
-            }
-          />
-          <SectionCard
-            title="Administration"
-            content={
-              <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm">
-                <li>IV infusion: 1g in 100 mL NS over 1 hr or 2g in 200 mL NS over 2 hrs</li>
-                <li>Peripheral: 10 mEq/100 mL</li>
-                <li>Central: 20–40 mEq/100 mL</li>
-              </ul>
-            }
-          />
-        </div>
-
-        {/* Support & Reference Sections */}
-        <div className="max-w-4xl mx-auto space-y-8">
-          <NotesSection />
-          <SafetySection />
-          <ReferenceSection />
-          <DisclaimerSection />
+          {/* Support & Reference Sections with toggle */}
+          <div className="space-y-8 mt-10 max-w-2xl mx-auto">
+            <NotesSection />
+            <SafetySection />
+            <ReferenceSection openRef={openRef} setOpenRef={setOpenRef} />
+            <DisclaimerSection />
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-// Helper components
+// Helper Components
 function Input({ label, value, setValue }: { label: string; value: string; setValue: (val: string) => void }) {
   return (
     <div className="flex flex-col">
@@ -181,7 +185,7 @@ function Input({ label, value, setValue }: { label: string; value: string; setVa
 
 function SectionCard({ title, content }: { title: string; content: React.ReactNode }) {
   return (
-    <div className="bg-gray-50 p-6 rounded-[1.5rem] shadow-md hover:shadow-xl transition duration-300">
+    <div className="bg-gray-50 p-6 rounded-[1.5rem] shadow-md hover:shadow-xl transition duration-300 ease-in-out">
       <h3 className="text-xl font-semibold mb-4 text-gray-800">{title}</h3>
       {content}
     </div>
@@ -220,8 +224,7 @@ function SafetySection() {
   );
 }
 
-function ReferenceSection() {
-  const [openRef, setOpenRef] = useState(false);
+function ReferenceSection({ openRef, setOpenRef }: { openRef: boolean; setOpenRef: (val: boolean) => void }) {
   return (
     <div className="bg-gray-50 p-4 rounded-[1.5rem] shadow-md transition relative">
       <button
@@ -245,7 +248,7 @@ function ReferenceSection() {
 
 function DisclaimerSection() {
   return (
-    <div className="mt-8 text-xs text-gray-600 border-t pt-4 max-w-4xl mx-auto text-center">
+    <div className="mt-8 text-xs text-gray-600 border-t pt-4 max-w-2xl mx-auto text-center">
       <p className="font-semibold mb-1">Disclaimer</p>
       <p>Use as a guide. Verify all calculations before clinical application.</p>
     </div>
