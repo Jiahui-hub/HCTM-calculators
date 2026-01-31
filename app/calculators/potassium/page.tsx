@@ -52,14 +52,14 @@ export default function PotassiumCalculator() {
     }
   }
 
-  // State for reference toggle
+  // Reference toggle
   const [openRef, setOpenRef] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex flex-col font-sans relative overflow-hidden">
-      
-      {/* Top bar with back button */}
-      <div className="w-full fixed top-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-md flex items-center px-4 py-3">
+
+      {/* Top bar spanning full width */}
+      <div className="w-full fixed top-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-lg flex items-center px-4 py-3">
         <button
           onClick={() => router.back()}
           className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg text-white font-semibold transition-transform hover:scale-105"
@@ -69,10 +69,13 @@ export default function PotassiumCalculator() {
         </button>
       </div>
 
-      {/* Main container */}
-      <div className="flex-1 flex justify-center pt-20 px-4 pb-8">
+      {/* Spacer to avoid content hidden behind top bar */}
+      <div className="pt-16" />
+
+      {/* Main content wrapper */}
+      <div className="flex-1 flex justify-center px-4 pb-8">
         <div className="w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl p-8 md:p-10 space-y-8 transition-all duration-300 overflow-y-auto">
-          
+
           {/* Lock theme to light */}
           <style jsx global>{`
             body {
@@ -95,21 +98,21 @@ export default function PotassiumCalculator() {
             <p className="text-sm text-gray-600">Note: 1 mEq/L = 1 mmol/L</p>
           </div>
 
-          {/* Input Cards with smooth transitions */}
+          {/* Input cards */}
           <div className="grid md:grid-cols-3 gap-6 bg-gray-50 p-6 rounded-[1.5rem] shadow-md space-y-4 md:space-y-0 transition duration-300 ease-in-out">
             <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
             <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
             <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
           </div>
 
-          {/* Warning Message with smooth fade */}
+          {/* Warning message */}
           {potassiumWarning && (
             <div className={`p-4 rounded-[1rem] shadow ${warningColor} transition-opacity duration-500`}>
               ⚠ {potassiumWarning}
             </div>
           )}
 
-          {/* Results section with animation */}
+          {/* Results display */}
           {deficit > 0 && (
             <div className="bg-green-50 p-6 rounded-[1.5rem] shadow-xl mt-8 hover:shadow-2xl transition duration-300 ease-in-out">
               <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900 text-center">
@@ -134,7 +137,7 @@ export default function PotassiumCalculator() {
             </div>
           )}
 
-          {/* Info Sections as cards with smooth hover effects */}
+          {/* Info sections */}
           <div className="grid md:grid-cols-2 gap-6 mt-10">
             <SectionCard
               title="Dose"
@@ -162,7 +165,7 @@ export default function PotassiumCalculator() {
             />
           </div>
 
-          {/* Support & Reference Sections with toggle */}
+          {/* Support & Reference Sections */}
           <div className="space-y-8 mt-10 max-w-2xl mx-auto">
             <NotesSection />
             <SafetySection />
@@ -176,6 +179,7 @@ export default function PotassiumCalculator() {
 }
 
 // Helper Components
+
 function Input({ label, value, setValue }: { label: string; value: string; setValue: (val: string) => void }) {
   return (
     <div className="flex flex-col">
