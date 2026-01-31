@@ -45,7 +45,8 @@ export default function PotassiumCalculator() {
     if (k < 2.5) {
       potassiumWarning =
         "Severe hypokalaemia (<2.5 mmol/L). Continuous ECG monitoring required.";
-      warningColor = "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200";
+      warningColor =
+        "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200";
     } else if (k < 3.0) {
       potassiumWarning =
         "Moderate hypokalaemia (2.5–3.0 mmol/L). IV replacement with close monitoring.";
@@ -60,58 +61,62 @@ export default function PotassiumCalculator() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex justify-center p-6 font-sans">
-      <div className="max-w-4xl w-full space-y-8 bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8 transition-all duration-300">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex justify-center p-6 font-sans transition-colors duration-300">
+      <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8 space-y-8 transition-all duration-300">
         {/* Back Button */}
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
         >
-          <FiArrowLeft className="text-lg" />
+          <FiArrowLeft />
           Back
         </button>
 
-        {/* Title */}
-        <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-gray-100 mb-6">
+        {/* Header */}
+        <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-gray-100 mb-4">
           Potassium Deficit Calculator
         </h1>
 
-        {/* Formula */}
-        <div className="bg-indigo-50 dark:bg-indigo-900 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 space-y-3">
-          <h2 className="font-semibold text-lg mb-2">Formula used:</h2>
-          <p className="text-gray-700 dark:text-gray-200">
-            Potassium deficit (mmol) = (Target K⁺ − Measured K⁺) × Weight (kg) × 0.4
+        {/* Formula Card */}
+        <div className="bg-indigo-50 dark:bg-indigo-900 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 transition">
+          <h2 className="text-xl font-semibold mb-2">Formula used:</h2>
+          <p className="text-gray-700 dark:text-gray-200 mb-2">
+            <b>Potassium deficit (mmol)</b> = (Target K⁺ − Measured K⁺) × Weight (kg) × 0.4
           </p>
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Note: 1 mEq/L = 1 mmol/L
           </p>
         </div>
 
-        {/* Input Fields */}
-        <div className="grid md:grid-cols-3 gap-6 bg-white dark:bg-gray-700 p-8 rounded-xl shadow-md space-y-4 md:space-y-0">
+        {/* Inputs */}
+        <div className="grid md:grid-cols-3 gap-6 bg-white dark:bg-gray-700 p-8 rounded-xl shadow-md transition space-y-4 md:space-y-0">
           <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
           <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
           <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
         </div>
 
-        {/* Potassium Warning */}
+        {/* Warning Message */}
         {potassiumWarning && (
           <div className={`p-4 rounded-xl shadow ${warningColor} transition`}>
             ⚠ {potassiumWarning}
           </div>
         )}
 
-        {/* Result Section */}
+        {/* Results */}
         {deficit > 0 && (
-          <div className="bg-gradient-to-br from-green-50 dark:from-green-900 to-green-100 dark:to-green-800 p-8 rounded-3xl shadow-lg mt-8 space-y-4">
+          <div className="bg-gradient-to-br from-green-50 dark:from-green-900 to-green-100 dark:to-green-800 p-8 rounded-3xl shadow-lg mt-8 space-y-4 transition">
             <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Total potassium deficit: {deficit.toFixed(1)} mmol
             </h2>
             <div>
               <p className="font-semibold mb-2">Suggested replacement (Injecsol K10):</p>
               <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200 text-sm">
-                <li>Required volume: <b>{volumeML.toFixed(1)} mL</b></li>
-                <li>≈ <b>{suggestedVials} vial(s)</b> (10 mL per vial)</li>
+                <li>
+                  Required volume: <b>{volumeML.toFixed(1)} mL</b>
+                </li>
+                <li>
+                  ≈ <b>{suggestedVials} vial(s)</b> (10 mL per vial)
+                </li>
                 {Number(currentK) > 2.5 && (
                   <li className="flex items-center gap-2 bg-red-100 dark:bg-red-800 p-2 rounded">
                     ⚠ Measured potassium &gt; 2.5 mmol/L — adjust infusion carefully
@@ -122,13 +127,13 @@ export default function PotassiumCalculator() {
           </div>
         )}
 
-        {/* Additional Info Sections */}
+        {/* Additional Sections */}
         <div className="grid md:grid-cols-2 gap-8 mt-10">
           <DoseSection />
           <AdministrationSection />
         </div>
 
-        {/* Supporting info and disclaimer */}
+        {/* Support & Disclaimer */}
         <div className="space-y-8 mt-10">
           <NotesSection />
           <SafetySection />
@@ -155,13 +160,13 @@ function Input({ label, value, setValue }: any) {
   );
 }
 
-// Dose info section
+// Dose section
 function DoseSection() {
   return (
     <div className="bg-white dark:bg-gray-700 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-600 transition">
       <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Dose</h2>
       <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200 text-sm">
-        <li>IV infusion: individualised; initial 40-60 mEq</li>
+        <li>IV infusion: individualized; initial 40-60 mEq</li>
         <li>Prophylaxis (PO): 20 mmol/day; adjust per potassium level</li>
         <li>Normal daily requirement: 40-80 mEq</li>
         <li>Potassium &gt; 2.5 mmol/L: IV 10-15 mmol/hr, max 200 mmol/day</li>
@@ -171,7 +176,7 @@ function DoseSection() {
   );
 }
 
-// Administration info
+// Administration section
 function AdministrationSection() {
   return (
     <div className="bg-white dark:bg-gray-700 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-600 transition">
@@ -215,7 +220,7 @@ function SafetySection() {
   );
 }
 
-// Reference section with toggle
+// Reference toggle section
 function ReferenceSection() {
   const [open, setOpen] = useState(false);
   return (
