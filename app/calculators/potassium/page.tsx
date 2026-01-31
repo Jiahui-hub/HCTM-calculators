@@ -2,13 +2,14 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FiChevronDown, FiChevronUp, FiArrowLeft } from "react-icons/fi";
+import { FiArrowLeft } from "react-icons/fi";
 
 export default function PotassiumCalculator() {
   const router = useRouter();
   const [weight, setWeight] = useState("");
   const [currentK, setCurrentK] = useState("");
   const [targetK, setTargetK] = useState("4.0");
+  const [openRef, setOpenRef] = useState(false);
 
   const deficit =
     weight && currentK && targetK
@@ -52,31 +53,28 @@ export default function PotassiumCalculator() {
     }
   }
 
-  // Reference toggle
-  const [openRef, setOpenRef] = useState(false);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex flex-col font-sans relative overflow-hidden">
 
-      {/* Top bar spanning full width with icons */}
-      <div className="w-full fixed top-0 z-50 bg-white bg-opacity-95 backdrop-blur-sm shadow-lg flex items-center px-4 py-3 transition-all duration-300">
+      {/* Top bar */}
+      <div className="w-full fixed top-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-lg flex items-center px-4 py-3">
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg text-white font-semibold transition transform hover:scale-105"
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg text-white font-semibold transition-transform hover:scale-105"
         >
-          <FiArrowLeft className="w-5 h-5" />
-          <span className="hidden sm:inline">Back</span>
+          <FiArrowLeft />
+          Back
         </button>
       </div>
 
-      {/* Spacer to prevent content behind the top bar */}
+      {/* Spacer */}
       <div className="pt-16" />
 
-      {/* Main content container */}
+      {/* Main Content */}
       <div className="flex-1 flex justify-center px-4 pb-8">
         <div className="w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl p-8 md:p-10 space-y-8 transition-all duration-300 overflow-y-auto">
 
-          {/* Lock theme to light */}
+          {/* Light theme lock */}
           <style jsx global>{`
             body {
               background-color: #f9fafb !important;
@@ -89,46 +87,33 @@ export default function PotassiumCalculator() {
             Potassium Deficit Calculator
           </h1>
 
-          {/* Formula Tile with icon */}
-          <div className="bg-indigo-50 p-6 rounded-[1.5rem] shadow-md hover:shadow-xl transition duration-300 ease-in-out flex items-start gap-4">
-            <div className="text-indigo-600">
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 20h9" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4H3" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16" />
-              </svg>
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold mb-3 text-gray-800">Formula used:</h2>
-              <p className="text-gray-700 mb-2">
-                <b>Potassium deficit (mmol)</b> = (Target K⁺ − Measured K⁺) × Weight (kg) × 0.4
-              </p>
-              <p className="text-sm text-gray-600">Note: 1 mEq/L = 1 mmol/L</p>
-            </div>
+          {/* Formula Tile */}
+          <div className="bg-indigo-50 p-6 rounded-[1.5rem] shadow-md hover:shadow-xl transition duration-300 ease-in-out">
+            <h2 className="text-xl font-semibold mb-3 text-gray-800">Formula used:</h2>
+            <p className="text-gray-700 mb-2">
+              <b>Potassium deficit (mmol)</b> = (Target K⁺ − Measured K⁺) × Weight (kg) × 0.4
+            </p>
+            <p className="text-sm text-gray-600">Note: 1 mEq/L = 1 mmol/L</p>
           </div>
 
-          {/* Input fields with icons */}
+          {/* Input cards */}
           <div className="grid md:grid-cols-3 gap-6 bg-gray-50 p-6 rounded-[1.5rem] shadow-md space-y-4 md:space-y-0 transition duration-300 ease-in-out">
-            <Input label="Body weight (kg)" value={weight} setValue={setWeight} icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 14l-4-4m0 0l4-4m-4 4h12" /></svg>} />
-            <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /></svg>} />
-            <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 20h.01" /></svg>} />
+            <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
+            <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
+            <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
           </div>
 
-          {/* Warning message with icon */}
+          {/* Potassium Warning */}
           {potassiumWarning && (
-            <div className={`p-4 rounded-[1rem] shadow ${warningColor} transition-opacity duration-500 flex items-center gap-3`}>
-              <svg className="w-6 h-6 text-current" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M12 3a9 9 0 110 18 9 9 0 010-18z" />
-              </svg>
-              <span>{potassiumWarning}</span>
+            <div className={`p-4 rounded-[1rem] shadow ${warningColor} transition-opacity duration-500`}>
+              ⚠ {potassiumWarning}
             </div>
           )}
 
           {/* Results */}
           {deficit > 0 && (
             <div className="bg-green-50 p-6 rounded-[1.5rem] shadow-xl mt-8 hover:shadow-2xl transition duration-300 ease-in-out">
-              <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900 text-center flex items-center justify-center gap-2">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900 text-center">
                 Total potassium deficit: {deficit.toFixed(1)} mmol
               </h2>
               <div>
@@ -142,7 +127,6 @@ export default function PotassiumCalculator() {
                   </li>
                   {Number(currentK) > 2.5 && (
                     <li className="flex items-center gap-2 bg-red-100 p-2 rounded">
-                      <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M12 3a9 9 0 110 18 9 9 0 010-18z" /></svg>
                       ⚠ Measured potassium &gt; 2.5 mmol/L — adjust infusion carefully
                     </li>
                   )}
@@ -151,17 +135,19 @@ export default function PotassiumCalculator() {
             </div>
           )}
 
-          {/* Info Sections with icons */}
+          {/* Info & Notes Sections */}
           <div className="grid md:grid-cols-2 gap-6 mt-10">
             <SectionCard
               title="Dose"
               content={
                 <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm">
-                  <li><svg className="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2" /></svg>IV infusion: individualized; initial 40-60 mEq</li>
-                  <li><svg className="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 20h.01" /></svg>Prophylaxis (PO): 20 mmol/day; adjust per potassium level</li>
-                  <li><svg className="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /></svg>Normal daily requirement: 40-80 mEq</li>
-                  <li><svg className="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" d="M12 20h.01" /></svg>Potassium &gt; 2.5 mmol/L: IV 10-15 mmol/hr, max 200 mmol/day</li>
-                  <li><svg className="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>Potassium 3–3.5 mmol/L: PO 40–100 mmol/day in 2–3 doses</li>
+                  <li>IV infusion: individualized; initial 40-60 mEq</li>
+                  <li>Prophylaxis (PO): 20 mmol/day; adjust per potassium level</li>
+                  <li>Normal daily requirement: 40-80 mEq</li>
+                  <li>
+                    Potassium &gt; 2.5 mmol/L: IV 10-15 mmol/hr, max 200 mmol/day
+                  </li>
+                  <li>Potassium 3–3.5 mmol/L: PO 40–100 mmol/day in 2–3 doses</li>
                 </ul>
               }
             />
@@ -169,19 +155,36 @@ export default function PotassiumCalculator() {
               title="Administration"
               content={
                 <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm">
-                  <li><svg className="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3" /></svg>IV infusion: 1g in 100 mL NS over 1 hr or 2g in 200 mL NS over 2 hrs</li>
-                  <li><svg className="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" d="M12 3v18" /></svg>Peripheral: 10 mEq/100 mL</li>
-                  <li><svg className="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" d="M4 6h16M4 12h16M4 18h16" /></svg>Central: 20–40 mEq/100 mL</li>
+                  <li>IV infusion: 1g in 100 mL NS over 1 hr or 2g in 200 mL NS over 2 hrs</li>
+                  <li>Peripheral: 10 mEq/100 mL</li>
+                  <li>Central: 20–40 mEq/100 mL</li>
                 </ul>
               }
             />
           </div>
 
-          {/* Support & reference sections with icons */}
+          {/* Support, Reference, Disclaimer */}
           <div className="space-y-8 mt-10 max-w-2xl mx-auto">
             <NotesSection />
             <SafetySection />
-            <ReferenceSection openRef={openRef} setOpenRef={setOpenRef} />
+            {/* Improved Reference Toggle */}
+            <div className="bg-gray-50 p-4 rounded-[1.5rem] shadow-md transition relative">
+              <button
+                onClick={() => setOpenRef(!openRef)}
+                className="flex items-center justify-between w-full font-semibold text-gray-700 mb-2 focus:outline-none"
+              >
+                <span className="flex items-center gap-2">
+                  Reference {openRef ? "▲" : "▼"}
+                </span>
+              </button>
+              {openRef && (
+                <div className="text-sm text-gray-600 mt-2 animate-fadeIn">
+                  <p>
+                    Alldredge B.K., Corelli R.L., Ernst M.E., Guglielmo B.J., Jacobson P.A., Kradjan W.A. Koda-Kimble and Young’s Applied Therapeutics. 10th ed. Lippincott; 2013.
+                  </p>
+                </div>
+              )}
+            </div>
             <DisclaimerSection />
           </div>
         </div>
@@ -190,15 +193,12 @@ export default function PotassiumCalculator() {
   );
 }
 
-// Helper components with icons
+// Helper Components
 
-function Input({ label, value, setValue, icon }: { label: string; value: string; setValue: (val: string) => void; icon: React.ReactNode }) {
+function Input({ label, value, setValue }: { label: string; value: string; setValue: (val: string) => void }) {
   return (
     <div className="flex flex-col">
-      <label className="mb-2 text-gray-700 font-semibold flex items-center gap-2">
-        {icon}
-        {label}
-      </label>
+      <label className="mb-2 text-gray-700 font-semibold">{label}</label>
       <input
         type="number"
         value={value}
@@ -213,13 +213,7 @@ function Input({ label, value, setValue, icon }: { label: string; value: string;
 function SectionCard({ title, content }: { title: string; content: React.ReactNode }) {
   return (
     <div className="bg-gray-50 p-6 rounded-[1.5rem] shadow-md hover:shadow-xl transition duration-300 ease-in-out">
-      <h3 className="text-xl font-semibold mb-4 text-gray-800 flex items-center gap-2">
-        {/* Icon for section */}
-        <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-        </svg>
-        {title}
-      </h3>
+      <h3 className="text-xl font-semibold mb-4 text-gray-800">{title}</h3>
       {content}
     </div>
   );
@@ -254,29 +248,6 @@ function SafetySection() {
         </ul>
       }
     />
-  );
-}
-
-function ReferenceSection({ openRef, setOpenRef }: { openRef: boolean; setOpenRef: (val: boolean) => void }) {
-  return (
-    <div className="bg-gray-50 p-4 rounded-[1.5rem] shadow-md transition relative">
-      <button
-        onClick={() => setOpenRef(!openRef)}
-        className="flex items-center justify-between w-full font-semibold text-gray-700 mb-2 focus:outline-none"
-      >
-        <span className="flex items-center gap-2">
-          <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d={openRef ? "M19 9l-7 7-7-7" : "M12 15l-7-7 14 0-7 7z"} /></svg>
-          Reference {openRef ? <FiChevronUp /> : <FiChevronDown />}
-        </span>
-      </button>
-      {openRef && (
-        <div className="text-sm text-gray-600 mt-2">
-          <p>
-            Alldredge B.K., Corelli R.L., Ernst M.E., Guglielmo B.J., Jacobson P.A., Kradjan W.A. Koda-Kimble and Young’s Applied Therapeutics. 10th ed. Lippincott; 2013.
-          </p>
-        </div>
-      )}
-    </div>
   );
 }
 
