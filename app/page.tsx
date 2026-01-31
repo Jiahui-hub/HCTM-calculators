@@ -9,7 +9,7 @@ export default function Home() {
       title: "Potassium Calculator",
       description: "Estimate potassium deficit safely",
       route: "/calculators/potassium",
-      icon: "🧪", // Example emoji icon
+      icon: "🧪",
     },
     {
       title: "Sodium Calculator",
@@ -56,7 +56,7 @@ export default function Home() {
         HCTM Calculators
       </h1>
 
-      {/* Container for tiles with animation */}
+      {/* Container for tiles */}
       <div
         style={{
           display: "flex",
@@ -112,6 +112,22 @@ export default function Home() {
             </p>
           </div>
         ))}
+      </div>
+
+      {/* Disclaimer */}
+      <div
+        style={{
+          marginTop: "50px",
+          maxWidth: "600px",
+          padding: "15px",
+          fontSize: "0.9rem",
+          color: "#666",
+          textAlign: "center",
+        }}
+      >
+        <p>
+          <strong>Disclaimer:</strong> Calculations are for reference only. Always verify and consult clinical judgment.
+        </p>
       </div>
 
       {/* Keyframes for fade-in animation */}
