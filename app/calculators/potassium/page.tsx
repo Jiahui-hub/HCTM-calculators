@@ -17,14 +17,14 @@ export default function PotassiumCalculator() {
       : 0;
 
   // Injecsol K10 assumptions
-  const mmolPer10ML = 13.41; // 1 vial (10 mL) contains 13.41 mmol
+  const mmolPer10ML = 13.41;
   const vialML = 10;
-  const mmolPerML = mmolPer10ML / vialML; // 1.341 mmol/mL
+  const mmolPerML = mmolPer10ML / vialML;
 
-  // Correct volume calculation
+  // Volume calculation
   const volumeML = deficit > 0 ? deficit / mmolPerML : 0;
 
-  // Suggest vials according to your ranges
+  // Vial suggestion
   let suggestedVials = 0;
   if (volumeML > 0) {
     if (volumeML <= 14) suggestedVials = 1;
@@ -41,11 +41,10 @@ export default function PotassiumCalculator() {
   let warningColor = "";
 
   const k = Number(currentK);
-
   if (k > 0) {
     if (k < 2.5) {
       potassiumWarning =
-        "Severe hypokalaemia (<2.5 mmol/L). Continuous ECG monitoring required. Avoid rapid infusion.";
+        "Severe hypokalaemia (<2.5 mmol/L). Continuous ECG monitoring required.";
       warningColor = "bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200";
     } else if (k < 3.0) {
       potassiumWarning =
@@ -54,15 +53,15 @@ export default function PotassiumCalculator() {
         "bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-200";
     } else if (k < 3.5) {
       potassiumWarning =
-        "Mild hypokalaemia (3.0–3.5 mmol/L). Oral replacement preferred if possible.";
+        "Mild hypokalaemia (3.0–3.5 mmol/L). Oral replacement preferred.";
       warningColor =
         "bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-200";
     }
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-gray-900 p-4">
-      <div className="max-w-4xl mx-auto space-y-8 bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 flex justify-center">
+      <div className="max-w-4xl w-full space-y-8 bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8">
         {/* Back Button */}
         <button
           onClick={() => router.back()}
@@ -72,23 +71,23 @@ export default function PotassiumCalculator() {
         </button>
 
         {/* Title */}
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 text-center mb-4">
+        <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-gray-100 mb-6">
           Potassium Deficit Calculator
         </h1>
 
         {/* Formula */}
-        <div className="bg-indigo-50 dark:bg-indigo-900 p-4 rounded-xl shadow-md space-y-2 border border-gray-200 dark:border-gray-700">
-          <p className="font-semibold mb-1">Formula used:</p>
+        <div className="bg-indigo-50 dark:bg-indigo-900 p-6 rounded-xl shadow-md space-y-3 border border-gray-200 dark:border-gray-700">
+          <h2 className="font-semibold text-lg">Formula used:</h2>
           <p className="text-gray-700 dark:text-gray-200">
             Potassium deficit (mmol) = (Target K⁺ − Measured K⁺) × Weight (kg) × 0.4
           </p>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             Note: 1 mEq/L = 1 mmol/L
           </p>
         </div>
 
         {/* Inputs */}
-        <div className="grid md:grid-cols-3 gap-4 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+        <div className="grid md:grid-cols-3 gap-6 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md space-y-4 md:space-y-0">
           <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
           <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
           <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
@@ -103,13 +102,13 @@ export default function PotassiumCalculator() {
 
         {/* Results */}
         {deficit > 0 && (
-          <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 p-6 rounded-3xl shadow-lg space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 p-8 rounded-3xl shadow-lg space-y-4 mt-8">
+            <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
               Total potassium deficit: {deficit.toFixed(1)} mmol
             </h2>
             <div>
               <p className="font-semibold mb-2">Suggested replacement (Injecsol K10):</p>
-              <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-200">
+              <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200">
                 <li>Required volume: <b>{volumeML.toFixed(1)} mL</b></li>
                 <li>≈ <b>{suggestedVials} vial(s)</b> (10 mL per vial)</li>
                 {Number(currentK) > 2.5 && (
@@ -122,16 +121,19 @@ export default function PotassiumCalculator() {
           </div>
         )}
 
-        {/* Sections */}
-        <div className="grid md:grid-cols-2 gap-6 mt-8">
+        {/* Sections - spaced out */}
+        <div className="grid md:grid-cols-2 gap-8 mt-10">
           <DoseSection />
           <AdministrationSection />
         </div>
 
-        <NotesSection />
-        <SafetySection />
-        <ReferenceSection />
-        <DisclaimerSection />
+        {/* Notes & Safety & References & Disclaimer - spaced out */}
+        <div className="space-y-8 mt-10">
+          <NotesSection />
+          <SafetySection />
+          <ReferenceSection />
+          <DisclaimerSection />
+        </div>
       </div>
     </div>
   );
@@ -140,7 +142,7 @@ export default function PotassiumCalculator() {
 function Input({ label, value, setValue }: any) {
   return (
     <div>
-      <label className="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-200">{label}</label>
+      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-200">{label}</label>
       <input
         type="number"
         value={value}
@@ -153,9 +155,9 @@ function Input({ label, value, setValue }: any) {
 
 function DoseSection() {
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-700 transition">
-      <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">Dose</h2>
-      <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200">
+    <div className="bg-white dark:bg-gray-700 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-600 transition">
+      <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Dose</h2>
+      <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200 text-sm">
         <li>IV infusion: individualised; initial 40-60 mEq</li>
         <li>Prophylaxis (PO): 20 mmol/day; adjust per potassium level</li>
         <li>Normal daily requirement: 40-80 mEq</li>
@@ -168,9 +170,9 @@ function DoseSection() {
 
 function AdministrationSection() {
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-700 transition">
-      <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">Administration</h2>
-      <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200">
+    <div className="bg-white dark:bg-gray-700 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-600 transition">
+      <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Administration</h2>
+      <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200 text-sm">
         <li>IV infusion: 1g in 100 mL NS over 1 hr or 2g in 200 mL NS over 2 hrs</li>
         <li>Peripheral: 10 mEq/100 mL</li>
         <li>Central: 20–40 mEq/100 mL</li>
@@ -181,9 +183,9 @@ function AdministrationSection() {
 
 function NotesSection() {
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-700 transition">
-      <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">Notes</h2>
-      <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200">
+    <div className="bg-white dark:bg-gray-700 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-600 transition">
+      <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Notes</h2>
+      <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200 text-sm">
         <li>1 vial of K10% = 1g KCl</li>
         <li>1g KCl = 13.41 mmol</li>
         <li>Potassium 1 mEq/L = 1 mmol/L</li>
@@ -195,9 +197,9 @@ function NotesSection() {
 
 function SafetySection() {
   return (
-    <div className="bg-red-50 dark:bg-red-900 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-700 transition">
-      <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">Safety Guidance</h2>
-      <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200">
+    <div className="bg-red-50 dark:bg-red-900 p-6 rounded-3xl shadow-md border border-gray-200 dark:border-gray-600 transition">
+      <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Safety Guidance</h2>
+      <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-200 text-sm">
         <li>Check renal & cardiac status before IV replacement</li>
         <li>Central access for rates &gt; 20 mmol/hr</li>
         <li>Re-check serum potassium after every 40–60 mmol</li>
@@ -210,7 +212,7 @@ function SafetySection() {
 function ReferenceSection() {
   const [open, setOpen] = useState(false);
   return (
-    <div className="bg-white dark:bg-gray-800 p-4 rounded-3xl shadow-md border border-gray-200 transition">
+    <div className="bg-white dark:bg-gray-700 p-4 rounded-3xl shadow-md border border-gray-200 transition">
       <button
         onClick={() => setOpen(!open)}
         className="flex items-center justify-between w-full font-semibold text-gray-700 dark:text-gray-200 mb-2"
@@ -218,11 +220,9 @@ function ReferenceSection() {
         Reference {open ? <FiChevronUp /> : <FiChevronDown />}
       </button>
       {open && (
-        <div className="text-sm text-gray-600 dark:text-gray-400 mt-2 space-y-1">
+        <div className="text-sm text-gray-600 dark:text-gray-400 mt-2">
           <p>
-            Alldredge B.K., Corelli R.L., Ernst M.E., Guglielmo B.J., Jacobson P.A.,
-            Kradjan W.A. Koda-Kimble and Young’s Applied Therapeutics: The Clinical
-            Use of Drugs. 10th ed. Lippincott; Philadelphia, PA, USA: 2013.
+            Alldredge B.K., Corelli R.L., Ernst M.E., Guglielmo B.J., Jacobson P.A., Kradjan W.A. Koda-Kimble and Young’s Applied Therapeutics. 10th ed. Lippincott; 2013.
           </p>
         </div>
       )}
@@ -232,10 +232,10 @@ function ReferenceSection() {
 
 function DisclaimerSection() {
   return (
-    <div className="mt-8 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-4">
+    <div className="mt-8 text-xs text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-4 text-center max-w-2xl mx-auto">
       <p className="font-semibold mb-1">Disclaimer</p>
       <p>
-        Use calculations as a guide only. Verify independently. Do not rely solely on this tool for patient care.
+        For guidance only. Verify calculations before clinical use.
       </p>
     </div>
   );
