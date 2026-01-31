@@ -58,21 +58,29 @@ export default function PotassiumCalculator() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex flex-col font-sans relative overflow-hidden">
       
-      {/* Top navigation bar with back button */}
-      <div className="w-full fixed top-0 z-50 bg-white shadow-md py-3 px-4 flex items-center justify-start backdrop-blur-lg bg-opacity-70">
+      {/* Top bar with back button */}
+      <div className="w-full fixed top-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-md flex items-center px-4 py-3">
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg text-white font-semibold transition transform hover:scale-105"
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg text-white font-semibold transition-transform hover:scale-105"
         >
           <FiArrowLeft />
           Back
         </button>
       </div>
 
-      {/* Main content container */}
+      {/* Main container */}
       <div className="flex-1 flex justify-center pt-20 px-4 pb-8">
         <div className="w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl p-8 md:p-10 space-y-8 transition-all duration-300 overflow-y-auto">
           
+          {/* Lock theme to light */}
+          <style jsx global>{`
+            body {
+              background-color: #f9fafb !important;
+              color: #111827;
+            }
+          `}</style>
+
           {/* Main Title */}
           <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-6">
             Potassium Deficit Calculator
@@ -101,7 +109,7 @@ export default function PotassiumCalculator() {
             </div>
           )}
 
-          {/* Result section with animation */}
+          {/* Results section with animation */}
           {deficit > 0 && (
             <div className="bg-green-50 p-6 rounded-[1.5rem] shadow-xl mt-8 hover:shadow-2xl transition duration-300 ease-in-out">
               <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900 text-center">
