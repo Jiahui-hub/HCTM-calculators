@@ -11,47 +11,53 @@ export default function MagnesiumCalculator() {
   const [currentMg, setCurrentMg] = useState("");
   const [targetMg, setTargetMg] = useState("0.9"); // mmol/L
 
-  // Magnesium deficit calculation
   const deficit =
     weight && currentMg && targetMg
       ? (Number(targetMg) - Number(currentMg)) * Number(weight) * 0.2
       : 0;
 
-  // MgSO4 1g = 4 mmol Mg2+
   const mmolPerGram = 4;
   const volumeG = deficit > 0 ? deficit / mmolPerGram : 0;
 
-  // Suggested dosage text
-let suggestedDose = "";
-if (volumeG > 0) {
-  if (volumeG <= 1) suggestedDose = "1 g IM";
-  else if (volumeG <= 5) suggestedDose = "Slow IV infusion 1-5 g";
-  else suggestedDose = `${volumeG.toFixed(1)} g over several hours`;
-}
+  let suggestedDose = "";
+  if (volumeG > 0) {
+    if (volumeG <= 1) suggestedDose = "1 g IM";
+    else if (volumeG <= 5) suggestedDose = "Slow IV infusion 1-5 g";
+    else suggestedDose = `${volumeG.toFixed(1)} g over several hours`;
+  }
 
-// Calculate volume and ampoules for display
-const volumeML = deficit > 0 ? (deficit / mmolPerGram) * 5 : 0; // 1g MgSO4 = 5 mL
-let suggestedAmpoules = 0;
-let suggestedDoseText = "";
+  const volumeML = deficit > 0 ? (deficit / mmolPerGram) * 5 : 0;
+  let suggestedAmpoules = 0;
+  let suggestedDoseText = "";
 
-if (volumeML > 0) {
-  suggestedAmpoules = Math.ceil(volumeML / 5);
-  suggestedDoseText =
-    volumeML <= 5
-      ? `IM: ${volumeML.toFixed(1)} mL (~${suggestedAmpoules} ampoule)`
-      : `Slow IV: ${volumeML.toFixed(1)} mL (~${suggestedAmpoules} ampoules) over several hours`;
-}
+  if (volumeML > 0) {
+    suggestedAmpoules = Math.ceil(volumeML / 5);
+    suggestedDoseText =
+      volumeML <= 5
+        ? `IM: ${volumeML.toFixed(1)} mL (~${suggestedAmpoules} ampoule)`
+        : `Slow IV: ${volumeML.toFixed(1)} mL (~${suggestedAmpoules} ampoules) over several hours`;
+  }
 
-  // State for reference toggle
   const [openRef, setOpenRef] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 font-sans">
-      {/* Top bar */}
+      {/* Top bar with styled back button */}
       <div className="w-full fixed top-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-lg flex items-center px-4 py-3">
         <button
           onClick={() => router.back()}
-          className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition"
+          style={{
+            backgroundColor: '#e0e0e0', // Light gray
+            border: 'none',
+            borderRadius: '8px',
+            padding: '8px 16px',
+            color: '#171717',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'background-color 0.2s',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#c0c0c0')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#e0e0e0')}
         >
           &larr; Back
         </button>
@@ -60,7 +66,7 @@ if (volumeML > 0) {
       {/* Spacer */}
       <div className="pt-16" />
 
-      {/* Main content */}
+      {/* Main Content */}
       <div className="flex-1 flex justify-center px-4 pb-8">
         <div className="w-full max-w-3xl bg-white rounded-[2rem] shadow-2xl p-8 md:p-10 space-y-8 overflow-y-auto">
 
@@ -133,8 +139,30 @@ if (volumeML > 0) {
           {/* Notes Section */}
           <NotesSection />
 
-          {/* Reference Section */}
-          <ReferenceSection openRef={openRef} setOpenRef={setOpenRef} />
+          {/* Reference Section with styled toggle */}
+          <div
+            style={{
+              backgroundColor: '#e0e0e0', // Light gray
+              borderRadius: '8px',
+              padding: '8px 16px',
+              marginTop: '10px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              cursor: 'pointer',
+            }}
+            onClick={() => setOpenRef(!openRef)}
+          >
+            <span className="flex items-center gap-2 font-semibold text-gray-800">
+              Reference {openRef ? <FiChevronUp /> : <FiChevronDown />}
+            </span>
+          </div>
+          {openRef && (
+            <div className="mt-2 text-sm text-gray-700 space-y-1">
+              {/* Add your references here */}
+              <p>Sample reference line for you to copy</p>
+            </div>
+          )}
 
         </div>
       </div>
@@ -198,27 +226,6 @@ function NotesSection() {
         <li>1 mL = 493 mg MgSO₄ (2 mmol = 4 mEq Mg, 2 mmol = 4 mEq SO₄)</li>
         <li>Max dose: 30–40 g/day</li>
       </ul>
-    </div>
-  );
-}
-
-function ReferenceSection({ openRef, setOpenRef }: { openRef: boolean; setOpenRef: (val: boolean) => void }) {
-  return (
-    <div className="bg-gray-100 p-4 rounded-xl">
-      <button
-        onClick={() => setOpenRef(!openRef)}
-        className="flex items-center justify-between w-full font-semibold text-gray-800"
-      >
-        <span className="flex items-center gap-2">
-          Reference {openRef ? <FiChevronUp /> : <FiChevronDown />}
-        </span>
-      </button>
-      {openRef && (
-        <div className="mt-2 text-sm text-gray-700 space-y-1">
-          {/* Add your references here */}
-          <p>Sample reference line for you to copy</p>
-        </div>
-      )}
     </div>
   );
 }
