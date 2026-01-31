@@ -56,8 +56,8 @@ export default function PotassiumCalculator() {
   return (
     <div className="min-h-screen bg-white font-sans flex flex-col relative overflow-hidden">
 
-      {/* Top bar with nice color, larger height, centered title */}
-      <div className="w-full fixed top-0 z-50 bg-[#89CFF0] h-28 flex items-center px-4 md:px-8 shadow-md">
+      {/* Top bar: light theme, larger height, centered title */}
+      <div className="w-full fixed top-0 z-50 bg-[#F0F4F8] h-28 flex items-center px-4 md:px-8 shadow-md">
         {/* Back Button - larger size, icon only, left side */}
         <button
           onClick={() => router.back()}
