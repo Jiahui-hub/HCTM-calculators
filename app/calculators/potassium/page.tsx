@@ -58,21 +58,18 @@ export default function PotassiumCalculator() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex flex-col font-sans relative px-4 sm:px-6 lg:px-10">
 
-      {/* Top bar spanning full width */}
+      {/* Top bar */}
       <div className="fixed top-0 inset-x-0 z-50 px-4 sm:px-6 lg:px-10">
-       <div className="bg-white bg-opacity-90 backdrop-blur-sm shadow-lg
-        flex items-center py-3 rounded-xl">
-      </div>
-    </div>
-
-        <button
-          onClick={() => router.back()}
-          className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg text-white font-semibold transition-transform hover:scale-105"
-        >
+        <div className="bg-white bg-opacity-90 backdrop-blur-sm shadow-lg flex items-center py-3 rounded-xl">
+          <button
+            onClick={() => router.back()}
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg text-white font-semibold transition-transform hover:scale-105"
+          >
           <FiArrowLeft />
           Back
         </button>
       </div>
+  </div>
 
       {/* Spacer to avoid content hidden behind top bar */}
       <div className="pt-16" />
