@@ -56,11 +56,12 @@ export default function PotassiumCalculator() {
   const [openRef, setOpenRef] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10">
 
       {/* Top bar */}
-      <div className="fixed top-4 inset-x-0 z-50 px-4 sm:px-6 lg:px-10">
-        <div className="bg-white bg-opacity-90 backdrop-blur-sm shadow-lg flex items-center py-3 px-4 rounded-xl">
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl px-4 sm:px-6 lg:px-10 z-50">
+        <div className="bg-white bg-opacity-90 backdrop-blur-sm shadow-lg flex items-center py-3 rounded-xl">
+
           <button
             onClick={() => router.back()}
             className="flex items-center gap-2 px-6 py-3 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg text-white font-semibold transition-transform hover:scale-105"
@@ -75,7 +76,7 @@ export default function PotassiumCalculator() {
       <div className="pt-16" />
 
       {/* Main content wrapper */}
-      <div className="flex-1 flex justify-center pb-16">
+      <div className="flex-1 flex justify-center pb-16 px-2 sm:px-4">
         <div className="max-w-7xl w-full mx-4 bg-white rounded-[2rem] shadow-2xl p-6 md:p-8 lg:p-10 transition-all duration-300 overflow-y-auto">
 
           {/* Lock theme to light */}
