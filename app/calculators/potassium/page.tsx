@@ -56,7 +56,7 @@ export default function PotassiumCalculator() {
   const [openRef, setOpenRef] = useState(false);
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10">
+    <div className="w-full">
 
       {/* Top bar */}
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl px-4 sm:px-6 lg:px-10 z-50">
