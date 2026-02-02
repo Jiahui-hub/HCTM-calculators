@@ -59,24 +59,24 @@ export default function PotassiumCalculator() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex flex-col font-sans relative px-4 sm:px-6 lg:px-10">
 
       {/* Top bar */}
-      <div className="fixed top-0 inset-x-0 z-50 px-4 sm:px-6 lg:px-10">
-        <div className="bg-white bg-opacity-90 backdrop-blur-sm shadow-lg flex items-center py-3 rounded-xl">
+      <div className="fixed top-4 inset-x-0 z-50 px-4 sm:px-6 lg:px-10">
+        <div className="bg-white bg-opacity-90 backdrop-blur-sm shadow-lg flex items-center py-3 px-4 rounded-xl">
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg text-white font-semibold transition-transform hover:scale-105"
+            className="flex items-center gap-2 px-6 py-3 rounded-full bg-indigo-600 hover:bg-indigo-700 shadow-lg text-white font-semibold transition-transform hover:scale-105"
           >
-          <FiArrowLeft />
-          Back
-        </button>
-      </div>
+            <FiArrowLeft className="w-5 h-5" /> {/* Increase icon size */}
+            Back
+          </button>    
   </div>
+</div>
 
       {/* Spacer to avoid content hidden behind top bar */}
       <div className="pt-16" />
 
       {/* Main content wrapper */}
       <div className="flex-1 flex justify-center pb-16">
-        <div className="w-[480px] mx-auto bg-white rounded-[2rem] shadow-2xl p-10 md:p-12 lg:p-14 transition-all duration-300 overflow-y-auto">
+        <div className="w-[600px] max-w-full mx-4 bg-white rounded-[2rem] shadow-2xl p-10 md:p-12 lg:p-14 transition-all duration-300 overflow-y-auto">
 
           {/* Lock theme to light */}
           <style jsx global>{`
