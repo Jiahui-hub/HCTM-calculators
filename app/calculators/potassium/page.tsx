@@ -56,7 +56,7 @@ export default function PotassiumCalculator() {
   const [openRef, setOpenRef] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex flex-col font-sans relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex flex-col font-sans relative overflow-hidden px-4 sm:px-6 lg:px-10">
 
       {/* Top bar spanning full width */}
       <div className="w-full fixed top-0 z-50 bg-white bg-opacity-90 backdrop-blur-sm shadow-lg flex items-center px-4 py-3">
@@ -73,8 +73,8 @@ export default function PotassiumCalculator() {
       <div className="pt-16" />
 
       {/* Main content wrapper */}
-      <div className="flex-1 flex justify-center px-6 sm:px-8 lg:px-12 xl:px-20 pb-12">
-        <div className="w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl p-10 md:p-12 lg:p-14 space-y-10 transition-all duration-300 overflow-y-auto">
+      <div className="flex-1 flex justify-center pb-16">
+        <div className="w-full max-w-4xl mx-auto bg-white rounded-[2rem] shadow-2xl p-10 md:p-12 lg:p-14 space-y-10 transition-all duration-300 overflow-y-auto">
 
           {/* Lock theme to light */}
           <style jsx global>{`
