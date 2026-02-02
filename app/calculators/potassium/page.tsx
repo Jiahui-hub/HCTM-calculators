@@ -76,7 +76,7 @@ export default function PotassiumCalculator() {
 
       {/* Main content wrapper */}
       <div className="flex-1 flex justify-center pb-16">
-        <div className="mx-8 w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl p-10 md:p-12 lg:p-14 transition-all duration-300 overflow-y-auto">
+        <div className="w-[375px] mx-auto bg-white rounded-[2rem] shadow-2xl p-10 md:p-12 lg:p-14 transition-all duration-300 overflow-y-auto">
 
           {/* Lock theme to light */}
           <style jsx global>{`
