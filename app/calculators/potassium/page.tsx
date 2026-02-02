@@ -154,6 +154,7 @@ return (
     </div>
   </div>
 );
+}
 
 // Helper Components
 
