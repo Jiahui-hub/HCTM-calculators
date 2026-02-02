@@ -73,14 +73,16 @@ export default function PotassiumCalculator() {
       <div className="pt-16" />
 
       {/* Main content wrapper */}
-      <div className="flex-1 flex justify-center px-4 pb-8">
-        <div className="w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl p-8 md:p-10 space-y-8 transition-all duration-300 overflow-y-auto">
+      <div className="flex-1 flex justify-center px-6 sm:px-8 lg:px-12 xl:px-20 pb-12">
+        <div className="w-full max-w-4xl bg-white rounded-[2rem] shadow-2xl p-10 md:p-12 lg:p-14 space-y-10 transition-all duration-300 overflow-y-auto">
 
           {/* Lock theme to light */}
           <style jsx global>{`
             body {
               background-color: #f9fafb !important;
               color: #111827;
+              padding-left: env(safe-area-inset-left)
+              padding-right: env(safe-area-inset-right)
             }
           `}</style>
 
@@ -188,7 +190,7 @@ function Input({ label, value, setValue }: { label: string; value: string; setVa
         type="number"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition bg-gray-100"
+        className="border border-gray-300 rounded-lg p-4 text-base focus:outline-none focus:ring-2 focus:ring-indigo-400 transition bg-gray-100"
         placeholder={label}
       />
     </div>
