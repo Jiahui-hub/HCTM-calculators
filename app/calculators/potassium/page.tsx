@@ -87,17 +87,6 @@ export default function PotassiumCalculator() {
           p-6 md:p-8 lg:p-10
         ">
 
-
-          {/* Lock theme to light */}
-          <style jsx global>{`
-            body {
-              background-color: #f9fafb !important;
-              color: #111827;
-              padding-left: env(safe-area-inset-left);
-              padding-right: env(safe-area-inset-right);
-            }
-          `}</style>
-
           {/* Main Title */}
           <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-6">
             Potassium Deficit Calculator
