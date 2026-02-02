@@ -77,7 +77,16 @@ export default function PotassiumCalculator() {
 
       {/* Main content wrapper */}
       <div className="flex-1 flex justify-center pb-16 px-2 sm:px-4">
-        <div className="max-w-7xl w-full mx-4 bg-white rounded-[2rem] shadow-2xl p-6 md:p-8 lg:p-10 transition-all duration-300 overflow-y-auto">
+        <div className="
+          w-full
+          max-w-xl sm:max-w-2xl md:max-w-3xl lg:max-w-4xl
+          mx-auto
+          bg-white
+          rounded-[2rem]
+          shadow-2xl
+          p-6 md:p-8 lg:p-10
+        ">
+
 
           {/* Lock theme to light */}
           <style jsx global>{`
@@ -104,7 +113,17 @@ export default function PotassiumCalculator() {
           </div>
 
           {/* Input cards */}
-          <div className="grid md:grid-cols-3 gap-6 bg-gray-50 p-6 rounded-[1.5rem] shadow-md space-y-4 md:space-y-0 transition duration-300 ease-in-out">
+          <div className="
+            grid gap-6
+            md:grid-cols-3
+            bg-gray-50
+            p-6 md:p-8
+            rounded-[1.5rem]
+            shadow-md
+            max-w-3xl
+            mx-auto
+          ">
+
             <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
             <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
             <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
@@ -193,8 +212,17 @@ function Input({ label, value, setValue }: { label: string; value: string; setVa
         type="number"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="border border-gray-300 rounded-lg p-4 text-base focus:outline-none focus:ring-2 focus:ring-indigo-400 transition bg-gray-100"
-        placeholder={label}
+        className="
+          border border-gray-300
+          rounded-xl
+          p-4
+          text-base
+          bg-white
+          focus:outline-none
+          focus:ring-2
+          focus:ring-indigo-400
+          transition
+        "
       />
     </div>
   );
@@ -202,7 +230,7 @@ function Input({ label, value, setValue }: { label: string; value: string; setVa
 
 function SectionCard({ title, content }: { title: string; content: React.ReactNode }) {
   return (
-    <div className="bg-gray-50 p-6 rounded-[1.5rem] shadow-md hover:shadow-xl transition duration-300 ease-in-out">
+    <div className="bg-indigo-50 p-6 rounded-[1.5rem] shadow-md max-w-3xl mx-auto">
       <h3 className="text-xl font-semibold mb-4 text-gray-800">{title}</h3>
       {content}
     </div>
