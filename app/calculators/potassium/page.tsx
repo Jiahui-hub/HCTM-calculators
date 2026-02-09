@@ -125,7 +125,8 @@ return (
       )}
 
       {/* Info sections */}
-      <div className="grid md:grid-cols-2 gap-6 mt-10">
+      <div className="mt-10 max-w-2xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6">
         <SectionCard title="Dose" content={
           <ul className="list-disc list-inside space-y-2 text-sm">
             <li>IV infusion: individualized; initial 40–60 mEq</li>
@@ -195,7 +196,7 @@ function Input({
 
 function SectionCard({ title, content }: { title: string; content: React.ReactNode }) {
   return (
-    <div className="bg-indigo-50 p-6 rounded-[1.5rem] shadow-md max-w-3xl mx-auto">
+    <div className="bg-indigo-50 p-6 rounded-[1.5rem] shadow-md">
       <h3 className="text-xl font-semibold mb-4 text-gray-800">{title}</h3>
       {content}
     </div>
