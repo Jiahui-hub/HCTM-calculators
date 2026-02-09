@@ -151,7 +151,7 @@ return (
         <ReferenceSection openRef={openRef} setOpenRef={setOpenRef} />
         <DisclaimerSection />
       </div>
-
+      </div>
     </div>
   </div>
 );
