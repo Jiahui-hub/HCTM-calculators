@@ -72,7 +72,7 @@ export default function PotassiumCalculator() {
       <div className="h-20" />
 
       {/* MAIN CARD */}
-      <div className="w-full max-w-5xl bg-white rounded-2xl shadow-xl px-6 py-8 mb-12">
+      <div className="w-full bg-white rounded-2xl shadow-xl px-6 py-8 mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-6">
           Potassium Deficit Calculator
         </h1>
