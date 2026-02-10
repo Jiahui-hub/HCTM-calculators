@@ -149,12 +149,12 @@ function Input({
   setValue: (val: string) => void;
 }) {
   return (
-    <div className="flex flex-col gap-1 items-center">
-      <label className="text-sm font-medium text-gray-700 text-center">
+    <div className="flex flex-col gap-1">
+      <label className="text-sm font-medium text-gray-700">
         {label}
       </label>
 
-    <div className="w-full max-w-xs">
+    <div className="w-full max-w-[220px]">
       <input
         type="number"
         value={value}
