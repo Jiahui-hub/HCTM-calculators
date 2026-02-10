@@ -24,13 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100`}
-      >
-        {/* 🔒 LOCKED GLOBAL CONTAINER */}
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100`}>
+        <main className="mx-auto w-full max-w-6xl px-4">
           {children}
-        </div>
+        </main>
       </body>
     </html>
   );
