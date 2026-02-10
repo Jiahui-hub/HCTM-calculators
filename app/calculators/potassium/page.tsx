@@ -55,7 +55,7 @@ export default function PotassiumCalculator() {
   const [openRef, setOpenRef] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center px-4">
+    <div className="min-h-screen flex flex-col items-center">
       {/* Top bar */}
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl px-4 z-50">
         <div className="bg-white/90 backdrop-blur shadow flex items-center py-3 rounded-xl">
