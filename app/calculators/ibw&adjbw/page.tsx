@@ -7,11 +7,11 @@ const BodyWeightCalculatorPage = () => {
   const [weight, setWeight] = useState('');
   const [gender, setGender] = useState('');
   const [ibw, setIbw] = useState<number | null>(null);
-  const [abw, setAbw] = useState<number | null>(null);
   const [adjbw, setAdjbw] = useState<number | null>(null);
   const [showResults, setShowResults] = useState(false);
+  const [refExpanded, setRefExpanded] = useState(false);
+  const [reference, setReference] = useState('');
   const [refText, setRefText] = useState('');
-  const [reference, setReference] = useState(''); // To store selected reference
 
   const handleCalculate = () => {
     const heightNum = parseFloat(height);
@@ -30,15 +30,10 @@ const BodyWeightCalculatorPage = () => {
       ibwValue = 45.5 + 0.9 * (heightNum - 152);
     }
 
-    // Calculate ABW
-    const minABW = 0.8 * ibwValue;
-    const abwValue = weightNum < minABW ? minABW : weightNum;
-
     // Calculate AdjBW
     const adjbwValue = ibwValue + 0.4 * (weightNum - ibwValue);
 
     setIbw(parseFloat(ibwValue.toFixed(2)));
-    setAbw(parseFloat(abwValue.toFixed(2)));
     setAdjbw(parseFloat(adjbwValue.toFixed(2)));
     setShowResults(true);
   };
@@ -55,9 +50,14 @@ const BodyWeightCalculatorPage = () => {
     }
   };
 
+  const bmi = (weight && height) ? (parseFloat(weight) / ((parseFloat(height) / 100) ** 2)).toFixed(2) : '';
+
   return (
     <div style={{ maxWidth: '500px', margin: '40px auto', padding: '20px', backgroundColor: '#f4f4f4', fontFamily: 'Arial, sans-serif' }}>
+      {/* Title */}
       <h1 style={{ textAlign: 'center' }}>Body Weight Calculator</h1>
+
+      {/* Inputs */}
       <div>
         <label htmlFor="height">Height (cm):</label>
         <input
@@ -105,26 +105,62 @@ const BodyWeightCalculatorPage = () => {
         </button>
       </div>
 
+      {/* Results */}
       {showResults && (
         <div className="results" style={{ marginTop: '20px', backgroundColor: '#fff', padding: '15px', borderRadius: '5px' }}>
           <h2>Results</h2>
           <p><strong>Ideal Body Weight (IBW):</strong> {ibw} kg</p>
-          <p><strong>Adjusted Body Weight (ABW):</strong> {abw} kg</p>
           <p><strong>Adjusted Body Weight (AdjBW):</strong> {adjbw} kg</p>
+          {/* BMI display with category suggestion */}
+          <p><strong>BMI:</strong> {bmi}</p>
+          {bmi && (
+            <div style={{ marginTop: '10px', fontSize: '0.9em' }}>
+              <em>Categories:</em> Underweight (&lt;18.5), Normal (18.5–22.9), Overweight (23–27.4), Obese (≥27.5)
+            </div>
+          )}
         </div>
       )}
 
-      <div className="reference" style={{ marginTop: '30px' }}>
-        <label htmlFor="refDropdown">Reference:</label>
-        <select id="refDropdown" value={reference} onChange={handleRefChange} style={{ width: '100%', padding: '8px', marginTop: '5px' }}>
-          <option value="">Select a reference</option>
-          <option value="devine">Devine Formula</option>
-          <option value="broca">Broca Index</option>
-          {/* Add more options here as needed */}
-        </select>
-        <p style={{ marginTop: '10px' }}>{refText}</p>
-      </div>
+{/* Reference section as collapsible */}
+<div style={{ marginTop: '30px', border: '1px solid #ccc', borderRadius: '8px' }}>
+  <button
+    onClick={() => setRefExpanded(!refExpanded)}
+    style={{
+      width: '100%',
+      padding: '10px',
+      backgroundColor: '#e0e0e0',
+      border: 'none',
+      cursor: 'pointer',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    }}
+  >
+    <span style={{ fontWeight: 'bold' }}>Reference</span>
+    <span>{refExpanded ? '▲' : '▼'}</span>
+  </button>
+  {refExpanded && (
+    <div style={{ padding: '10px', backgroundColor: '#f9f9f9' }}>
+       {/* BMI reference */}
+    <p style={{ margin: 0 }}>
+      <strong>BMI (Body Mass Index):</strong> MEMS. (2024). MEMS quick reference guide: Management of obesity (Version May 2023).
+    </p>
+    {/* IBW reference */}
+    <p style={{ margin: 0, marginTop: '10px' }}>
+      <strong>Ideal Body Weight (IBW):</strong> Devine, B. J. (1974). Gentamicin therapy. DICP, 8, 650–655.
+    </p>
+    {/* AdjBW reference */}
+    <p style={{ margin: 0, marginTop: '10px' }}>
+      <strong>Adjusted Body Weight (AdjBW):</strong> Bauer, L. A. (2001). <em>Applied clinical pharmacokinetics</em> (pp. 93–179). McGraw Hill, Medical Publishing Division.
+    </p>
+    {/* Additional pharmacokinetics reference */}
+    <p style={{ margin: 0, marginTop: '10px' }}>
+      Winter, M. E. (2004). <em>Basic pharmacokinetics</em>. Lippincott Williams & Williams.
+      </p>
     </div>
+  )}
+</div>
+</div>
   );
 };
 
