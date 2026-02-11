@@ -6,16 +6,10 @@ export default function Home() {
 
   const tiles = [
     {
-      title: "IBW Calculator",
-      description: "Calculate Ideal Body Weight",
-      route: "/calculators/ibw",
+      title: "IBW & AdjBW Calculator",
+      description: "Calculate Ideal Body Weight & Adjusted Body Weight",
+      route: "/calculators/ibw&adjbw",
       icon: "🧍‍♂️",
-    },
-    {
-      title: "AdjBW Calculator",
-      description: "Calculate Adjusted Body Weight",
-      route: "/calculators/adjbw",
-      icon: "🧍‍♀️",
     },
     {
       title: "Potassium Calculator",

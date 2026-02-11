@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 
 const BodyWeightCalculatorPage = () => {
@@ -6,8 +8,10 @@ const BodyWeightCalculatorPage = () => {
   const [gender, setGender] = useState('');
   const [ibw, setIbw] = useState<number | null>(null);
   const [abw, setAbw] = useState<number | null>(null);
+  const [adjbw, setAdjbw] = useState<number | null>(null);
   const [showResults, setShowResults] = useState(false);
   const [refText, setRefText] = useState('');
+  const [reference, setReference] = useState(''); // To store selected reference
 
   const handleCalculate = () => {
     const heightNum = parseFloat(height);
@@ -30,13 +34,18 @@ const BodyWeightCalculatorPage = () => {
     const minABW = 0.8 * ibwValue;
     const abwValue = weightNum < minABW ? minABW : weightNum;
 
+    // Calculate AdjBW
+    const adjbwValue = ibwValue + 0.4 * (weightNum - ibwValue);
+
     setIbw(parseFloat(ibwValue.toFixed(2)));
     setAbw(parseFloat(abwValue.toFixed(2)));
+    setAdjbw(parseFloat(adjbwValue.toFixed(2)));
     setShowResults(true);
   };
 
   const handleRefChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
+    setReference(value);
     if (value === 'devine') {
       setRefText('Devine formula is used to estimate ideal body weight based on height and gender.');
     } else if (value === 'broca') {
@@ -101,18 +110,22 @@ const BodyWeightCalculatorPage = () => {
           <h2>Results</h2>
           <p><strong>Ideal Body Weight (IBW):</strong> {ibw} kg</p>
           <p><strong>Adjusted Body Weight (ABW):</strong> {abw} kg</p>
+          <p><strong>Adjusted Body Weight (AdjBW):</strong> {adjbw} kg</p>
         </div>
       )}
 
       <div className="reference" style={{ marginTop: '30px' }}>
         <label htmlFor="refDropdown">Reference:</label>
-        <select id="refDropdown" onChange={handleRefChange} style={{ width: '100%', padding: '8px', marginTop: '5px' }}>
+        <select id="refDropdown" value={reference} onChange={handleRefChange} style={{ width: '100%', padding: '8px', marginTop: '5px' }}>
           <option value="">Select a reference</option>
           <option value="devine">Devine Formula</option>
           <option value="broca">Broca Index</option>
+          {/* Add more options here as needed */}
         </select>
         <p style={{ marginTop: '10px' }}>{refText}</p>
       </div>
     </div>
   );
 };
+
+export default BodyWeightCalculatorPage;

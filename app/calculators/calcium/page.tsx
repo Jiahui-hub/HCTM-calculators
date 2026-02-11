@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 
 function CalciumCalculator() {
@@ -57,3 +59,5 @@ function CalciumCalculator() {
     </div>
   );
 }
+
+export default CalciumCalculator;
