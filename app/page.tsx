@@ -6,6 +6,18 @@ export default function Home() {
 
   const tiles = [
     {
+      title: "IBW Calculator",
+      description: "Calculate Ideal Body Weight",
+      route: "/calculators/ibw",
+      icon: "🧍‍♂️",
+    },
+    {
+      title: "AdjBW Calculator",
+      description: "Calculate Adjusted Body Weight",
+      route: "/calculators/adjbw",
+      icon: "🧍‍♀️",
+    },
+    {
       title: "Potassium Calculator",
       description: "Estimate potassium deficit safely",
       route: "/calculators/potassium",
