@@ -1,4 +1,4 @@
-"use client"; // MUST be first line
+"use client";
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,7 @@ export default function PotassiumCalculator() {
   const [weight, setWeight] = useState("");
   const [currentK, setCurrentK] = useState("");
   const [targetK, setTargetK] = useState("4.0");
+  const [openRef, setOpenRef] = useState(false);
 
   const deficit =
     weight && currentK && targetK
@@ -21,47 +22,39 @@ export default function PotassiumCalculator() {
 
   const volumeML = deficit > 0 ? deficit / mmolPerML : 0;
 
-  let suggestedVials = 0;
-  if (volumeML > 0) {
-    if (volumeML <= 14) suggestedVials = 1;
-    else if (volumeML <= 16) suggestedVials = 2;
-    else if (volumeML <= 20) suggestedVials = 2;
-    else if (volumeML <= 24) suggestedVials = 2;
-    else if (volumeML <= 30) suggestedVials = 3;
-    else if (volumeML <= 35) suggestedVials = 3;
-    else suggestedVials = Math.ceil(volumeML / vialML);
-  }
-
-  let potassiumWarning = "";
-  let warningColor = "";
+  const suggestedVials =
+    volumeML > 0 ? Math.ceil(volumeML / vialML) : 0;
 
   const k = Number(currentK);
+
+  let potassiumWarning = "";
+  let warningColor = "bg-green-50 border-green-200";
+
   if (k > 0) {
     if (k < 2.5) {
       potassiumWarning =
         "Severe hypokalaemia (<2.5 mmol/L). Continuous ECG monitoring required.";
-      warningColor = "bg-red-100 text-red-800";
+      warningColor = "bg-red-50 border-red-200";
     } else if (k < 3.0) {
       potassiumWarning =
         "Moderate hypokalaemia (2.5–3.0 mmol/L). IV replacement with close monitoring.";
-      warningColor = "bg-orange-100 text-orange-800";
+      warningColor = "bg-orange-50 border-orange-200";
     } else if (k < 3.5) {
       potassiumWarning =
         "Mild hypokalaemia (3.0–3.5 mmol/L). Oral replacement preferred.";
-      warningColor = "bg-yellow-100 text-yellow-800";
+      warningColor = "bg-yellow-50 border-yellow-200";
     }
   }
 
-  const [openRef, setOpenRef] = useState(false);
-
   return (
-    <div className="min-h-screen flex flex-col items-center">
+    <div className="min-h-screen bg-gray-100 px-4 flex flex-col items-center">
+
       {/* Top bar */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl px-4 z-50">
-        <div className="bg-white/90 backdrop-blur shadow flex items-center py-3 rounded-xl">
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl px-4 z-50">
+        <div className="bg-white shadow-md flex items-center py-3 px-4 rounded-2xl mt-4">
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold"
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition"
           >
             <FiArrowLeft className="w-4 h-4" />
             Back
@@ -69,64 +62,77 @@ export default function PotassiumCalculator() {
         </div>
       </div>
 
-      <div className="h-20" />
+      <div className="h-28" />
 
-      {/* MAIN CARD */}
-      <div className="w-full bg-white rounded-2xl shadow-xl px-6 py-8 mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-6">
+      {/* Main Card */}
+      <div className="w-full max-w-4xl bg-white rounded-3xl shadow-xl px-8 py-10 mb-16">
+
+        <h1 className="text-4xl font-bold text-center text-gray-900 mb-8">
           Potassium Deficit Calculator
         </h1>
 
-        <div className="bg-indigo-50 p-6 rounded-[1.5rem] shadow-md mb-8">
-          <h2 className="text-xl font-semibold mb-3 text-gray-800">Formula used:</h2>
+        {/* Formula Section */}
+        <div className="bg-indigo-50 p-6 rounded-3xl shadow-sm mb-10">
+          <h2 className="text-xl font-semibold mb-3 text-gray-800">
+            Formula used:
+          </h2>
           <p className="text-gray-700 mb-2">
             <b>Potassium deficit (mmol)</b> = (Target K⁺ − Measured K⁺) × Weight (kg) × 0.4
           </p>
-          <p className="text-sm text-gray-600">Note: 1 mEq/L = 1 mmol/L</p>
+          <p className="text-sm text-gray-600">
+            Note: 1 mEq/L = 1 mmol/L
+          </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3 bg-gray-50 p-6 rounded-[1.5rem] shadow-md max-w-3xl mx-auto mb-6">
+        {/* Input Section */}
+        <div className="grid gap-8 md:grid-cols-3 bg-gray-50 p-8 rounded-3xl shadow-sm max-w-3xl mx-auto mb-8">
           <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
           <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
           <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
         </div>
 
+        {/* Warning */}
         {potassiumWarning && (
-          <div className={`p-4 rounded-[1rem] shadow ${warningColor} mb-6`}>
+          <div className={`p-4 rounded-2xl border ${warningColor} mb-6`}>
             ⚠ {potassiumWarning}
           </div>
         )}
 
+        {/* Result Card */}
         {deficit > 0 && (
-          <div className="bg-green-50 p-6 rounded-[1.5rem] shadow-xl mt-6">
-            <h2 className="text-2xl font-semibold text-center mb-4">
-              Total potassium deficit: {deficit.toFixed(1)} mmol
+          <div className={`p-8 rounded-3xl border shadow-md text-center space-y-4 ${warningColor}`}>
+            <h2 className="text-3xl font-bold">
+              {deficit.toFixed(1)} mmol
             </h2>
+
+            <p className="text-gray-700">
+              Estimated volume required: {volumeML.toFixed(1)} mL
+            </p>
+
+            <p className="text-lg font-semibold text-indigo-700">
+              Suggested KCl 10% vials (10 mL each): {suggestedVials} vial(s)
+            </p>
           </div>
         )}
 
-        {/* Info sections */}
-        <div className="mt-10 max-w-2xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-6">
-            <SectionCard title="Dose" content={
-              <ul className="list-disc list-inside space-y-2 text-sm">
-                <li>IV infusion: individualized; initial 40–60 mEq</li>
-                <li>Normal daily requirement: 40–80 mEq</li>
-                <li>K &gt; 2.5 mmol/L: 10–15 mmol/hr</li>
-                <li>K 3–3.5 mmol/L: PO 40–100 mmol/day</li>
-              </ul>
-            } />
-            <SectionCard title="Administration" content={
-              <ul className="list-disc list-inside space-y-2 text-sm">
-                <li>Peripheral: 10 mEq/100 mL</li>
-                <li>Central: 20–40 mEq/100 mL</li>
-              </ul>
-            } />
-          </div>
-        </div>
+        {/* Info Sections */}
+        <div className="mt-14 space-y-8 max-w-2xl mx-auto">
+          <SectionCard title="Dose" content={
+            <ul className="list-disc list-inside space-y-2 text-sm">
+              <li>IV infusion: individualized; initial 40–60 mEq</li>
+              <li>Normal daily requirement: 40–80 mEq</li>
+              <li>K &gt; 2.5 mmol/L: 10–15 mmol/hr</li>
+              <li>K 3–3.5 mmol/L: PO 40–100 mmol/day</li>
+            </ul>
+          } />
 
-        {/* Footer sections */}
-        <div className="space-y-8 mt-10 max-w-2xl mx-auto">
+          <SectionCard title="Administration" content={
+            <ul className="list-disc list-inside space-y-2 text-sm">
+              <li>Peripheral: 10 mEq/100 mL</li>
+              <li>Central: 20–40 mEq/100 mL</li>
+            </ul>
+          } />
+
           <NotesSection />
           <SafetySection />
           <ReferenceSection openRef={openRef} setOpenRef={setOpenRef} />
