@@ -58,14 +58,14 @@ export default function PotassiumCalculator() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="max-w-4xl mx-auto px-6 pt-32 pb-16">
+      <div className="max-w-4xl mx-auto px-6 pt-28 pb-20">
 
       {/* Top bar */}
-      <div className="fixed top-0 left-0 right-0 bg-white border-b z-50">
+      <div className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur z-50">
         <div className="max-w-4xl mx-auto px-6 py-4">
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition"
+            className="flex items-center gap-2 text-indigo-600 hover:text-indigo-800 text-sm font-semibold transition"
           >
             <FiArrowLeft className="w-4 h-4" />
             Back
@@ -76,15 +76,15 @@ export default function PotassiumCalculator() {
       <div className="h-28" />
 
       {/* Main Card */}
-      <div className="bg-white rounded-2xl shadow-sm border px-10 py-12">
+      <div className="bg-white px-2">
 
         <h1 className="text-4xl font-bold text-center text-gray-900 mb-8">
           Potassium Deficit Calculator
         </h1>
 
         {/* Formula Section */}
-        <div className="bg-gray-50 border rounded-xl p-6 max-w-2xl mx-auto mb-12">
-          <h2 className="text-xl font-semibold mb-3 text-gray-800">
+        <div className="max-w-2xl mx-auto mb-14">
+          <h2 className="text-lg font-semibold text-gray-800 mb-2">
             Formula used:
           </h2>
           <p className="text-gray-700 mb-2">
@@ -96,7 +96,7 @@ export default function PotassiumCalculator() {
         </div>
 
         {/* Input Section */}
-        <div className="grid gap-10 md:grid-cols-3 bg-gray-50 border rounded-xl p-8 max-w-3xl mx-auto mb-12">
+        <div className="grid gap-10 md:grid-cols-3 max-w-3xl mx-auto mb-14">
           <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
           <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
           <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
