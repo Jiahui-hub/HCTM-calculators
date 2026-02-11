@@ -23,7 +23,18 @@ export default function PotassiumCalculator() {
   const volumeML = deficit > 0 ? deficit / mmolPerML : 0;
 
   const suggestedVials =
-    volumeML > 0 ? Math.ceil(volumeML / vialML) : 0;
+    let suggestedVials = 0;
+
+      if (volumeML > 0) {
+        if (volumeML <= 14) suggestedVials = 1;
+        else if (volumeML <= 16) suggestedVials = 2;
+        else if (volumeML <= 20) suggestedVials = 2;
+        else if (volumeML <= 24) suggestedVials = 2;
+        else if (volumeML <= 30) suggestedVials = 3;
+        else if (volumeML <= 35) suggestedVials = 3;
+        else suggestedVials = Math.ceil(volumeML / vialML);
+    }
+
 
   const k = Number(currentK);
 
@@ -47,7 +58,7 @@ export default function PotassiumCalculator() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 px-4 flex flex-col items-center">
+    <div className="min-h-screen bg-gray-100 px-4 flex justify center">
 
       {/* Top bar */}
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl px-4 z-50">
