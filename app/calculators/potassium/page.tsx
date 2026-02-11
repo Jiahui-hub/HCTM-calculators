@@ -22,8 +22,7 @@ export default function PotassiumCalculator() {
 
   const volumeML = deficit > 0 ? deficit / mmolPerML : 0;
 
-  const suggestedVials =
-    let suggestedVials = 0;
+      let suggestedVials = 0;
 
       if (volumeML > 0) {
         if (volumeML <= 14) suggestedVials = 1;
@@ -58,11 +57,12 @@ export default function PotassiumCalculator() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 px-4 flex justify center">
+    <div className="min-h-screen bg-gray-100">
+      <div className="max-w-4xl mx-auto px-6 pt-32 pb-16">
 
       {/* Top bar */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl px-4 z-50">
-        <div className="bg-white shadow-md flex items-center py-3 px-4 rounded-2xl mt-4">
+      <div className="fixed top-0 left-0 right-0 bg-white border-b z-50">
+        <div className="max-w-4xl mx-auto px-6 py-4">
           <button
             onClick={() => router.back()}
             className="flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition"
@@ -151,6 +151,7 @@ export default function PotassiumCalculator() {
         </div>
       </div>
     </div>
+   </div>
   );
 }
 
