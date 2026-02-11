@@ -76,14 +76,14 @@ export default function PotassiumCalculator() {
       <div className="h-28" />
 
       {/* Main Card */}
-      <div className="w-full max-w-4xl bg-white rounded-3xl shadow-xl px-8 py-10 mb-16">
+      <div className="bg-white rounded-2xl shadow-sm border px-10 py-12">
 
         <h1 className="text-4xl font-bold text-center text-gray-900 mb-8">
           Potassium Deficit Calculator
         </h1>
 
         {/* Formula Section */}
-        <div className="bg-indigo-50 p-6 rounded-3xl shadow-sm mb-10">
+        <div className="bg-gray-50 border rounded-xl p-6 max-w-2xl mx-auto mb-12">
           <h2 className="text-xl font-semibold mb-3 text-gray-800">
             Formula used:
           </h2>
@@ -96,7 +96,7 @@ export default function PotassiumCalculator() {
         </div>
 
         {/* Input Section */}
-        <div className="grid gap-8 md:grid-cols-3 bg-gray-50 p-8 rounded-3xl shadow-sm max-w-3xl mx-auto mb-8">
+        <div className="grid gap-10 md:grid-cols-3 bg-gray-50 border rounded-xl p-8 max-w-3xl mx-auto mb-12">
           <Input label="Body weight (kg)" value={weight} setValue={setWeight} />
           <Input label="Measured potassium (mmol/L)" value={currentK} setValue={setCurrentK} />
           <Input label="Target potassium (mmol/L)" value={targetK} setValue={setTargetK} />
@@ -111,7 +111,7 @@ export default function PotassiumCalculator() {
 
         {/* Result Card */}
         {deficit > 0 && (
-          <div className={`p-8 rounded-3xl border shadow-md text-center space-y-4 ${warningColor}`}>
+          <div className={`p-8 rounded-xl border text-center space-y-3 ${warningColor}`}>
             <h2 className="text-3xl font-bold">
               {deficit.toFixed(1)} mmol
             </h2>
@@ -127,7 +127,7 @@ export default function PotassiumCalculator() {
         )}
 
         {/* Info Sections */}
-        <div className="mt-14 space-y-8 max-w-2xl mx-auto">
+        <div className="mt-16 space-y-10 max-w-2xl mx-auto">
           <SectionCard title="Dose" content={
             <ul className="list-disc list-inside space-y-2 text-sm">
               <li>IV infusion: individualized; initial 40–60 mEq</li>
