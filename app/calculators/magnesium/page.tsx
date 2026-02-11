@@ -202,8 +202,7 @@ function AdministrationSection() {
       <h2 className="font-bold text-lg">Administration</h2>
       <ul className="list-disc pl-5 space-y-1">
         <li>Fast correction: dilute 1 ampoule in 100 mL NS/D5% over 1 hour</li>
-        <li>IV: dilute to 200 mg/mL (20%) or add ≥7.5 mL compatible solution per ampoule</li>
-        <li>Max IV rate: 2 g/hr to avoid hypotension</li>
+        <li>IV infusion: dilute to 200 mg/mL (20%) or add ≥7.5 mL of compatible solution per ampoule (max rate: 2g/hr to avoid hypotension)</li>
         <li>IM: dilution not required; can dilute up to 5 mL or 250–500 mg/mL</li>
       </ul>
     </div>
