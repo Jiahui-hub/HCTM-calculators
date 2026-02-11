@@ -132,8 +132,8 @@ export default function PotassiumCalculator() {
             <ul className="list-disc list-inside space-y-2 text-sm">
               <li>IV infusion: individualized; initial 40–60 mEq</li>
               <li>Normal daily requirement: 40–80 mEq</li>
-              <li>K &gt; 2.5 mmol/L: 10–15 mmol/hr</li>
-              <li>K 3–3.5 mmol/L: PO 40–100 mmol/day</li>
+              <li>K &gt; 2.5 mmol/L: 10–15 mmol/hr (max 200 mmol/day)</li>
+              <li>K 3–3.5 mmol/L: PO 40–100 mmol/day in 2-3 divided doses (max 20 mmol/dose)</li>
             </ul>
           } />
 
@@ -141,6 +141,7 @@ export default function PotassiumCalculator() {
             <ul className="list-disc list-inside space-y-2 text-sm">
               <li>Peripheral: 10 mEq/100 mL</li>
               <li>Central: 20–40 mEq/100 mL</li>
+              <li>IV Infusion: 1g in 100 ml NS infuse over 1 hour or 2g in 200 ml NS infuse over 2 hours (max concentration 40 mEq/L with continuous cardiac monitoring)</li>
             </ul>
           } />
 
@@ -209,7 +210,7 @@ function NotesSection() {
       title="Notes"
       content={
         <ul className="list-disc list-inside space-y-2 text-gray-700 text-sm">
-          <li>1 vial of K10% = 1g KCl</li>
+          <li>1 vial of Potassium chloride 10% (10ml) = 1g KCl</li>
           <li>1g KCl = 13.41 mmol</li>
           <li>Potassium 1 mEq/L = 1 mmol/L</li>
           <li>Dilute before use; not for bolus</li>
