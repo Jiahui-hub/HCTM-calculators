@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 function CalciumCalculator() {
   const [measuredCalcium, setMeasuredCalcium] = useState('');
   const [albumin, setAlbumin] = useState('');
-  const [correctedCalcium, setCorrectedCalcium] = useState(null);
+  const [correctedCalcium, setCorrectedCalcium] = useState<string | null>(null);
 
   const calculateCorrectedCalcium = () => {
     const Ca = parseFloat(measuredCalcium);
