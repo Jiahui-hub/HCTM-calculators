@@ -218,7 +218,8 @@ function NotesSection() {
         <li>Each 5 mL contains 10 mmol MgSO₄</li>
         <li>1 mL = 493 mg MgSO₄ (2 mmol = 4 mEq Mg, 2 mmol = 4 mEq SO₄)</li>
         <li>Max dose: 30–40 g/day</li>
-      </ul>
+        <li>Serum concentration of Mg²⁺ may be lowered in the presence of significant hypoalbuminemia</li>
+        </ul>
     </div>
   );
 }
