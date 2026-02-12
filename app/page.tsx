@@ -29,12 +29,6 @@ export default function Home() {
       route: "/calculators/magnesium",
       icon: "⚗️",
     },
-    {
-      title: "Corrected Calcium",
-      description: "Adjust calcium for albumin",
-      route: "/calculators/calcium",
-      icon: "🦴",
-    },
   ];
 
   return (
