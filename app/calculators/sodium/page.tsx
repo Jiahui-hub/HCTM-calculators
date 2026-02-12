@@ -10,11 +10,11 @@ export default function SodiumCalculator() {
   const [infusateNa, setInfusateNa] = useState(154);
 
   // TBW calculation
-  const tbwFactor = sex === "male" ? 0.6 : 0.5;
-  const tbw = weight * tbwFactor;
+  const totalBodyWaterFactor = sex === "male" ? 0.6 : 0.5;
+  const totalBodyWater = weight * totalBodyWaterFactor;
 
   // Adrogue-Madias formula
-  const deltaNaPerL = (infusateNa - serumNa) / (tbw + 1);
+  const deltaNaPerL = (infusateNa - serumNa) / (totalBodyWater + 1);
 
   const desiredChange = targetNa - serumNa;
 
@@ -135,8 +135,9 @@ const warningHyperModerate =
         <div className="bg-slate-100 p-4 rounded-xl space-y-2">
 
   <p>
-    TBW: <b>{tbw.toFixed(1)} L</b>
-  </p>
+    <p>
+  Estimated Total Body Water: <b>{totalBodyWater.toFixed(1)} L</b>
+</p>
 
   <p>
     ΔNa per 1L: <b>{deltaNaPerL.toFixed(2)} mmol/L</b>
