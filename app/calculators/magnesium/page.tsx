@@ -237,7 +237,7 @@ function ReferenceSection() {
       {open && (
         <div className="mt-2 text-sm text-gray-700 space-y-1">
           {/* Your references here */}
-          <p>Sample reference line for you to copy</p>
+          <p>Chan, P. D., & Winkle, C. R. (2015). Current clinical strategies: Internal medicine (2015 ed.). Current Clinical Strategies Publishing.</p>
         </div>
       )}
     </div>
