@@ -1,92 +1,148 @@
-import Link from "next/link";
+"use client"; // for router
+import { useRouter } from "next/navigation";
 
-const tiles = [
-  {
-    title: "IBW & Adjusted Body Weight",
-    description: "Calculate Ideal Body Weight & Adjusted Body Weight",
-    route: "ibw",
-    icon: "🧍‍♂️",
-  },
-  {
-    title: "Potassium",
-    description: "Estimate potassium deficit safely",
-    route: "potassium",
-    icon: "🧪",
-  },
-  {
-    title: "Sodium",
-    description: "Hyponatremia & Hypernatremia management",
-    route: "sodium",
-    icon: "🧂",
-  },
-  {
-    title: "Magnesium",
-    description: "Magnesium replacement estimation",
-    route: "magnesium",
-    icon: "⚗️",
-  },
-];
+export default function Home() {
+  const router = useRouter();
 
-export default function Dashboard() {
+  const tiles = [
+    {
+      title: "IBW & AdjBW Calculator",
+      description: "Calculate Ideal Body Weight & Adjusted Body Weight",
+      route: "/calculators/ibw&adjbw",
+      icon: "🧍‍♂️",
+    },
+    {
+      title: "Potassium Calculator",
+      description: "Estimate potassium deficit safely",
+      route: "/calculators/potassium",
+      icon: "🧪",
+    },
+    {
+      title: "Sodium Calculator",
+      description: "Correct sodium safely",
+      route: "/calculators/sodium",
+      icon: "🧂",
+    },
+    {
+      title: "Magnesium Calculator",
+      description: "Check magnesium safely",
+      route: "/calculators/magnesium",
+      icon: "⚗️",
+    },
+  ];
+
   return (
-    <div className="min-h-screen p-6 md:p-12 flex flex-col items-center">
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#f0f0f0",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "30px",
+        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+      }}
+    >
+      {/* Page Title */}
+      <h1
+        style={{
+          marginBottom: "40px",
+          fontSize: "2.5rem",
+          color: "#222",
+          fontWeight: "bold",
+          textAlign: "center",
+        }}
+      >
+        HCTM Calculators
+      </h1>
 
-      <header className="text-center mb-16">
-        <div className="inline-block px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold tracking-widest uppercase mb-6">
-          Clinical Reference Tools
-        </div>
-
-        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
-          HCTM <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-blue-400">
-            Calculators
-          </span>
-        </h1>
-
-        <p className="text-slate-400 text-lg max-w-lg mx-auto">
-          High-precision medical estimation tools designed for clinical efficiency.
-        </p>
-      </header>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+      {/* Container for tiles */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "25px",
+          width: "100%",
+          maxWidth: "500px",
+        }}
+      >
         {tiles.map((item, index) => (
-          <Link
+          <div
             key={index}
-            href={`/calculators/${item.route}`}
-            className="group relative cursor-pointer"
+            style={{
+              backgroundColor: "white",
+              padding: "25px",
+              borderRadius: "15px",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+              width: "100%",
+              cursor: "pointer",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              transition: "all 0.3s ease",
+              opacity: 0,
+              transform: "translateY(20px)",
+              animation: `fadeInUp 0.5s ease forwards ${index * 0.2}s`,
+            }}
+            onClick={() => router.push(item.route)}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-5px)";
+              e.currentTarget.style.boxShadow = "0 12px 24px rgba(0,0,0,0.2)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)";
+            }}
           >
-            <div className="relative bg-slate-900/50 backdrop-blur-xl border border-slate-800 hover:border-indigo-500/50 p-8 rounded-3xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col items-center md:items-start text-center md:text-left">
-
-              <div className="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-3xl mb-6">
-                {item.icon}
-              </div>
-
-              <h2 className="text-2xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">
-                {item.title}
-              </h2>
-
-              <p className="text-slate-400 text-sm">
-                {item.description}
-              </p>
-
-              <div className="mt-6 text-xs font-bold text-indigo-400 uppercase tracking-widest">
-                Launch Tool →
-              </div>
+            {/* Icon */}
+            <div
+              style={{
+                fontSize: "2rem",
+                marginBottom: "12px",
+              }}
+            >
+              {item.icon}
             </div>
-          </Link>
+            {/* Title */}
+            <h2 style={{ marginBottom: "8px", color: "#222" }}>{item.title}</h2>
+            {/* Description */}
+            <p style={{ margin: 0, color: "#555", textAlign: "center" }}>
+              {item.description}
+            </p>
+          </div>
         ))}
       </div>
 
-      <footer className="mt-20 max-w-2xl text-center">
-        <div className="p-6 rounded-2xl bg-slate-900/30 border border-slate-800/50">
-          <p className="text-slate-500 text-sm">
-            Calculations are for reference only. Always verify with clinical judgment.
-          </p>
-        </div>
-
-        <p className="mt-8 text-slate-600 text-[10px] uppercase tracking-[0.2em]">
-          © 2026 HCTM MEDICAL SYSTEMS
+      {/* Disclaimer */}
+      <div
+        style={{
+          marginTop: "50px",
+          maxWidth: "600px",
+          padding: "15px",
+          fontSize: "0.9rem",
+          color: "#666",
+          textAlign: "center",
+        }}
+      >
+        <p>
+          <strong>Disclaimer:</strong> Calculations are for reference only. Always verify and consult clinical judgment.
         </p>
-      </footer>
+      </div>
+
+      {/* Keyframes for fade-in animation */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 }
