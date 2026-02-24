@@ -1,148 +1,43 @@
-"use client"; // for router
-import { useRouter } from "next/navigation";
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-export default function Home() {
-  const router = useRouter();
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import Home from "./pages/Home";
+import BodyWeightCalculator from "./pages/BodyWeightCalculator";
+import PotassiumCalculator from "./pages/PotassiumCalculator";
+import SodiumCalculator from "./pages/SodiumCalculator";
+import MagnesiumCalculator from "./pages/MagnesiumCalculator";
 
-  const tiles = [
-    {
-      title: "IBW & AdjBW Calculator",
-      description: "Calculate Ideal Body Weight & Adjusted Body Weight",
-      route: "/calculators/ibw&adjbw",
-      icon: "🧍‍♂️",
-    },
-    {
-      title: "Potassium Calculator",
-      description: "Estimate potassium deficit safely",
-      route: "/calculators/potassium",
-      icon: "🧪",
-    },
-    {
-      title: "Sodium Calculator",
-      description: "Correct sodium safely",
-      route: "/calculators/sodium",
-      icon: "🧂",
-    },
-    {
-      title: "Magnesium Calculator",
-      description: "Check magnesium safely",
-      route: "/calculators/magnesium",
-      icon: "⚗️",
-    },
-  ];
-
+const Placeholder = ({ title }: { title: string }) => {
+  const navigate = useNavigate();
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#f0f0f0",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "30px",
-        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-      }}
-    >
-      {/* Page Title */}
-      <h1
-        style={{
-          marginBottom: "40px",
-          fontSize: "2.5rem",
-          color: "#222",
-          fontWeight: "bold",
-          textAlign: "center",
-        }}
+    <div className="min-h-screen bg-[#f0f0f0] flex flex-col items-center justify-center p-8 font-sans">
+      <h1 className="text-3xl font-bold mb-4">{title}</h1>
+      <p className="text-gray-600 mb-8 text-center max-w-md">
+        This calculator is currently under development. Please paste the code for this page to implement its functionality.
+      </p>
+      <button 
+        onClick={() => navigate("/")}
+        className="px-6 py-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all font-medium text-gray-800"
       >
-        HCTM Calculators
-      </h1>
-
-      {/* Container for tiles */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "25px",
-          width: "100%",
-          maxWidth: "500px",
-        }}
-      >
-        {tiles.map((item, index) => (
-          <div
-            key={index}
-            style={{
-              backgroundColor: "white",
-              padding: "25px",
-              borderRadius: "15px",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-              width: "100%",
-              cursor: "pointer",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              transition: "all 0.3s ease",
-              opacity: 0,
-              transform: "translateY(20px)",
-              animation: `fadeInUp 0.5s ease forwards ${index * 0.2}s`,
-            }}
-            onClick={() => router.push(item.route)}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-5px)";
-              e.currentTarget.style.boxShadow = "0 12px 24px rgba(0,0,0,0.2)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)";
-            }}
-          >
-            {/* Icon */}
-            <div
-              style={{
-                fontSize: "2rem",
-                marginBottom: "12px",
-              }}
-            >
-              {item.icon}
-            </div>
-            {/* Title */}
-            <h2 style={{ marginBottom: "8px", color: "#222" }}>{item.title}</h2>
-            {/* Description */}
-            <p style={{ margin: 0, color: "#555", textAlign: "center" }}>
-              {item.description}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* Disclaimer */}
-      <div
-        style={{
-          marginTop: "50px",
-          maxWidth: "600px",
-          padding: "15px",
-          fontSize: "0.9rem",
-          color: "#666",
-          textAlign: "center",
-        }}
-      >
-        <p>
-          <strong>Disclaimer:</strong> Calculations are for reference only. Always verify and consult clinical judgment.
-        </p>
-      </div>
-
-      {/* Keyframes for fade-in animation */}
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
+        Back to Home
+      </button>
     </div>
+  );
+};
+
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/calculators/ibw-adjbw" element={<BodyWeightCalculator />} />
+        <Route path="/calculators/potassium" element={<PotassiumCalculator />} />
+        <Route path="/calculators/sodium" element={<SodiumCalculator />} />
+        <Route path="/calculators/magnesium" element={<MagnesiumCalculator />} />
+      </Routes>
+    </Router>
   );
 }
