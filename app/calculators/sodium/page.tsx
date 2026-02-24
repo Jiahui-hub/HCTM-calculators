@@ -17,17 +17,32 @@ export default function SodiumCalculator() {
   const deltaNaPerL =
     (infusateNa - serumNa) / (totalBodyWater + 1);
 
-  const desiredChange = targetNa - serumNa;
+  const rawChange = targetNa - serumNa;
 
-  const volumeRequired =
-    deltaNaPerL !== 0
-      ? desiredChange / deltaNaPerL
-      : 0;
+const maxCorrection =
+  mode === "hypo" ? 8 : 10;
 
-  const infusionRate =
-    volumeRequired > 0
-      ? (volumeRequired * 1000) / 24
-      : 0;
+const plannedChange =
+  Math.min(Math.abs(rawChange), maxCorrection);
+
+// mmol sodium needed (same as mmol/L change in body water)
+const sodiumNeeded = plannedChange * totalBodyWater;
+
+// Adrogue-Madias
+const deltaNaPerL =
+  (infusateNa - serumNa) / (totalBodyWater + 1);
+
+// Volume required to achieve SAFE correction
+const volumeRequired =
+  deltaNaPerL !== 0
+    ? plannedChange / Math.abs(deltaNaPerL)
+    : 0;
+
+// Infusion rate over 24h
+const infusionRate =
+  volumeRequired > 0
+    ? (volumeRequired * 1000) / 24
+    : 0;
 
   // Free Water Deficit (Hypernatremia only)
   const freeWaterDeficit =
@@ -165,75 +180,43 @@ export default function SodiumCalculator() {
         </div>
 
         {/* Results */}
-        <div className="bg-slate-100 p-5 rounded-xl space-y-2">
+        <div className="bg-slate-100 p-5 rounded-xl space-y-3">
 
-          <p>
-            Estimated Total Body Water:{" "}
-            <b>{totalBodyWater.toFixed(1)} L</b>
-          </p>
+  <p>
+    Estimated Total Body Water:
+    <b> {totalBodyWater.toFixed(1)} L</b>
+  </p>
 
-          <p>
-            Predicted Sodium Change per 1 L:{" "}
-            <b>{deltaNaPerL.toFixed(2)} mmol/L</b>
-          </p>
+  <p>
+    Planned Sodium Correction (24h):
+    <b> {plannedChange.toFixed(1)} mmol/L</b>
+  </p>
 
-          {mode === "hyper" && (
-            <p>
-              Estimated Free Water Deficit:{" "}
-              <b>{freeWaterDeficit.toFixed(2)} L</b>
-            </p>
-          )}
+  <p>
+    Suggested Infusion Rate:
+    <b> {infusionRate > 0 ? infusionRate.toFixed(0) : 0} mL/hour</b>
+  </p>
 
-          <p>
-            Estimated Volume Required:{" "}
-            <b>
-              {volumeRequired > 0
-                ? volumeRequired.toFixed(2)
-                : 0}{" "}
-              L
-            </b>
-          </p>
+  {mode === "hypo" && infusateNa === 154 && (
+    <p className="text-orange-600 font-medium">
+      ⚠ 0.9% saline may be insufficient to significantly raise sodium.
+      Consider hypertonic saline if clinically indicated.
+    </p>
+  )}
 
-          <p>
-            Suggested Infusion Rate:{" "}
-            <b>
-              {infusionRate > 0
-                ? infusionRate.toFixed(0)
-                : 0}{" "}
-              mL/hour
-            </b>
-          </p>
+  {Math.abs(rawChange) > maxCorrection && (
+    <p className="text-red-600 font-semibold">
+      ⚠ Target exceeds safe 24-hour correction limit. Risk of cerebral edema.
+      Correction automatically capped at {maxCorrection} mmol.
+    </p>
+  )}
 
-          {/* Alerts */}
-          {exceedsHypo && (
-            <p className="text-red-600 font-semibold">
-              ⚠ Correction exceeds 8 mmol/L per 24 hours.
-              Risk of osmotic demyelination syndrome.
-            </p>
-          )}
-
-          {exceedsHyper && (
-            <p className="text-red-600 font-semibold">
-              ⚠ Correction exceeds 10 mmol/L per 24 hours.
-              Risk of cerebral edema.
-            </p>
-          )}
-
-          {cautionHyper && (
-            <p className="text-orange-600 font-medium">
-              ⚠ Consider limiting correction to ≤8 mmol/L
-              in high-risk patients.
-            </p>
-          )}
-
-          {!exceedsHypo &&
-            !exceedsHyper &&
-            absoluteChange > 0 && (
-              <p className="text-green-600 font-medium">
-                ✓ Within recommended correction limits.
-              </p>
-            )}
-        </div>
+  {Math.abs(rawChange) <= maxCorrection && rawChange !== 0 && (
+    <p className="text-green-600 font-medium">
+      ✓ Within recommended correction limits.
+    </p>
+  )}
+</div>
 
         {/* Clinical Notes */}
         <div className="mt-8 text-sm text-slate-600">
